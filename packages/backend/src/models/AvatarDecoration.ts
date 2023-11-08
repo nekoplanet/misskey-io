@@ -43,4 +43,14 @@ export class MiAvatarDecoration {
 		array: true, length: 128, default: '{}',
 	})
 	public roleIdsThatCanBeUsedThisDecoration: string[];
+
+	@Column('varchar', {
+		length: 32,
+	})
+	public remoteId: string;
+
+	@Column('varchar', {
+		length: 128, nullable: true
+	})
+	public host: string | null;
 }
