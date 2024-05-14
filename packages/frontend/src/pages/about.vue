@@ -28,12 +28,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<a href="https://go.misskey.io/legal-notice" target="_blank" rel="noopener"><u>特定商取引法に基づく表記</u></a>
 				</div>
 
-				<FormSection>
+				<!-- <FormSection>
 					<template #label><Mfm text="$[jelly ❤]"/> Sponsored by</template>
 					<div style="display:flex;flex-wrap:wrap;gap:8px 8px;align-items:center;justify-content:center;">
 						<a title="Skeb" href="https://skeb.jp/" target="_blank"><img src="https://media.misskeyusercontent.jp/misskey-io/sponsors/skeb.png" alt="Skeb" width="140"></a>
 					</div>
-				</FormSection>
+				</FormSection> -->
 
 				<FormSection>
 					<div class="_gaps_m">
@@ -97,7 +97,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 								<template #icon><i class="ti ti-message"></i></template>
 								{{ i18n.ts.support }}
 							</FormLink>
-							<FormLink to="https://misskeyhq.fanbox.cc" external>
+							<FormLink to="https://fanbox.cc/@neko-planet" external>
 								<template #icon><i class="ti ti-pig-money"></i></template>
 								{{ i18n.tsx.supportThisInstance({ name: instance.name ?? host }) }}
 								<template #suffix>pixivFANBOX</template>
