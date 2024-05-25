@@ -5,8 +5,12 @@
 
 import { Directive } from 'vue';
 
+export interface MkObserverHTMLElement extends HTMLElement {
+	_observer_?: IntersectionObserver,
+}
+
 export default {
-	mounted(src, binding, vn) {
+	mounted(src: MkObserverHTMLElement, binding) {
 		const fn = binding.value;
 		if (fn == null) return;
 
@@ -21,7 +25,7 @@ export default {
 		src._observer_ = observer;
 	},
 
-	unmounted(src, binding, vn) {
+	unmounted(src: MkObserverHTMLElement) {
 		if (src._observer_) src._observer_.disconnect();
 	},
 } as Directive;

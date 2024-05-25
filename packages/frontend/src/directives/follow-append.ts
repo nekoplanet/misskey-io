@@ -6,8 +6,12 @@
 import { Directive } from 'vue';
 import { getScrollContainer, getScrollPosition } from '@/scripts/scroll.js';
 
+export interface MkRoHTMLElement extends HTMLElement {
+	_ro_?: ResizeObserver,
+}
+
 export default {
-	mounted(src, binding, vn) {
+	mounted(src: MkRoHTMLElement, binding) {
 		if (binding.value === false) return;
 
 		let isBottom = true;
@@ -34,7 +38,7 @@ export default {
 		src._ro_ = ro;
 	},
 
-	unmounted(src, binding, vn) {
+	unmounted(src: MkRoHTMLElement) {
 		if (src._ro_) src._ro_.unobserve(src);
 	},
 } as Directive;

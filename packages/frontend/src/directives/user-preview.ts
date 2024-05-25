@@ -7,14 +7,16 @@ import { defineAsyncComponent, Directive, ref } from 'vue';
 import { popup } from '@/os.js';
 
 export class UserPreview {
-	private el;
-	private user;
-	private showTimer;
-	private hideTimer;
-	private checkTimer;
-	private promise;
+	private el: HTMLElement;
+	private user: string;
+	private showTimer?: number;
+	private hideTimer?: number;
+	private checkTimer?: number;
+	private promise?: {
+		cancel: () => void,
+	};
 
-	constructor(el, user) {
+	constructor(el: HTMLElement, user: string) {
 		this.el = el;
 		this.user = user;
 
@@ -68,7 +70,7 @@ export class UserPreview {
 		if (this.promise) {
 			window.clearInterval(this.checkTimer);
 			this.promise.cancel();
-			this.promise = null;
+			this.promise = undefined;
 		}
 	}
 
@@ -102,21 +104,27 @@ export class UserPreview {
 	}
 }
 
+export type MkUserPreviewDirective = {
+	preview: UserPreview,
+};
+
+export interface MkUserPreviewHTMLElement extends HTMLElement {
+	_userPreviewDirective_?: MkUserPreviewDirective,
+}
+
 export default {
-	mounted(el: HTMLElement, binding, vn) {
+	mounted(el: MkUserPreviewHTMLElement, binding) {
 		if (binding.value == null) return;
 
 		// TODO: 新たにプロパティを作るのをやめMapを使う
 		// ただメモリ的には↓の方が省メモリかもしれないので検討中
-		const self = (el as any)._userPreviewDirective_ = {} as any;
-
-		self.preview = new UserPreview(el, binding.value);
+		el._userPreviewDirective_ = { preview: new UserPreview(el, binding.value) };
 	},
 
-	unmounted(el, binding, vn) {
+	unmounted(el: MkUserPreviewHTMLElement, binding) {
 		if (binding.value == null) return;
 
 		const self = el._userPreviewDirective_;
-		self.preview.detach();
+		self!.preview.detach();
 	},
 } as Directive;

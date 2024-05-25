@@ -5,5 +5,5 @@
 
 import { dateTimeFormat } from '@/scripts/intl-const.js';
 
-export default (d: Date | number | undefined) => dateTimeFormat.format(d);
+export default (d?: Date | number) => dateTimeFormat.format(d);
 export const dateString = (d: string) => dateTimeFormat.format(new Date(d));

@@ -6,49 +6,47 @@
 // TODO: useTooltip関数使うようにしたい
 // ただディレクティブ内でonUnmountedなどのcomposition api使えるのか不明
 
-import { defineAsyncComponent, Directive, ref } from 'vue';
+import { defineAsyncComponent, Directive, ref, DirectiveBinding } from 'vue';
 import { isTouchUsing } from '@/scripts/touch.js';
 import { popup, alert } from '@/os.js';
 
 const start = isTouchUsing ? 'touchstart' : 'mouseenter';
 const end = isTouchUsing ? 'touchend' : 'mouseleave';
 
+export type MkTooltip = {
+	text?: string;
+	_close?: () => void;
+	showTimer?: number;
+	hideTimer?: number;
+	checkTimer?: number;
+	close?: () => void;
+	show?: () => void;
+};
+
+export interface MkTooltipDirectiveHTMLElement extends HTMLElement {
+	_tooltipDirective_?: MkTooltip,
+}
+
 export default {
-	mounted(el: HTMLElement, binding, vn) {
+	mounted(el: MkTooltipDirectiveHTMLElement, binding: DirectiveBinding<string>) {
 		const delay = binding.modifiers.noDelay ? 0 : 100;
 
-		const self = (el as any)._tooltipDirective_ = {} as any;
-
-		self.text = binding.value as string;
-		self._close = null;
-		self.showTimer = null;
-		self.hideTimer = null;
-		self.checkTimer = null;
+		const self: MkTooltip = {
+			text: binding.value,
+		};
 
 		self.close = () => {
 			if (self._close) {
 				window.clearInterval(self.checkTimer);
 				self._close();
-				self._close = null;
+				self._close = undefined;
 			}
 		};
-
-		if (binding.arg === 'dialog') {
-			el.addEventListener('click', (ev) => {
-				ev.preventDefault();
-				ev.stopPropagation();
-				alert({
-					type: 'info',
-					text: binding.value,
-				});
-				return false;
-			});
-		}
 
 		self.show = () => {
 			if (!document.body.contains(el)) return;
 			if (self._close) return;
-			if (self.text == null) return;
+			if (self.text === undefined) return;
 
 			const showing = ref(true);
 			popup(defineAsyncComponent(() => import('@/components/MkTooltip.vue')), {
@@ -64,6 +62,8 @@ export default {
 			};
 		};
 
+		(el)._tooltipDirective_ = self;
+
 		el.addEventListener('selectstart', ev => {
 			ev.preventDefault();
 		});
@@ -72,9 +72,9 @@ export default {
 			window.clearTimeout(self.showTimer);
 			window.clearTimeout(self.hideTimer);
 			if (delay === 0) {
-				self.show();
+				self.show!();
 			} else {
-				self.showTimer = window.setTimeout(self.show, delay);
+				self.showTimer = window.setTimeout(self.show!, delay);
 			}
 		}, { passive: true });
 
@@ -82,25 +82,25 @@ export default {
 			window.clearTimeout(self.showTimer);
 			window.clearTimeout(self.hideTimer);
 			if (delay === 0) {
-				self.close();
+				self.close!();
 			} else {
-				self.hideTimer = window.setTimeout(self.close, delay);
+				self.hideTimer = window.setTimeout(self.close!, delay);
 			}
 		}, { passive: true });
 
 		el.addEventListener('click', () => {
 			window.clearTimeout(self.showTimer);
-			self.close();
+			self.close!();
 		});
 	},
 
-	updated(el, binding) {
+	updated(el: MkTooltipDirectiveHTMLElement, binding: DirectiveBinding<string>) {
 		const self = el._tooltipDirective_;
-		self.text = binding.value as string;
+		self!.text = binding.value;
 	},
 
-	unmounted(el, binding, vn) {
+	unmounted(el: MkTooltipDirectiveHTMLElement) {
 		const self = el._tooltipDirective_;
-		window.clearInterval(self.checkTimer);
+		window.clearInterval(self!.checkTimer);
 	},
 } as Directive;
