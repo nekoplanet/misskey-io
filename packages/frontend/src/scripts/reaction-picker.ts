@@ -5,13 +5,14 @@
 
 import * as Misskey from 'misskey-js';
 import { defineAsyncComponent, Ref, ref } from 'vue';
+
 import { popup } from '@/os.js';
 import { defaultStore } from '@/store.js';
 
 class ReactionPicker {
-	private src: Ref<HTMLElement | null> = ref(null);
+	private src: Ref<HTMLElement | undefined> = ref();
 	private manualShowing = ref(false);
-	private targetNote: Ref<Misskey.entities.Note | null> = ref(null);
+	private targetNote: Ref<Misskey.entities.Note | undefined> = ref();
 	private onChosen?: (reaction: string) => void;
 	private onClosed?: () => void;
 
@@ -35,13 +36,13 @@ class ReactionPicker {
 				this.manualShowing.value = false;
 			},
 			closed: () => {
-				this.src.value = null;
+				this.src.value = undefined;
 				if (this.onClosed) this.onClosed();
 			},
 		});
 	}
 
-	public show(src: HTMLElement | null, targetNote: Misskey.entities.Note | null, onChosen?: ReactionPicker['onChosen'], onClosed?: ReactionPicker['onClosed']) {
+	public show(src?: HTMLElement, targetNote?: Misskey.entities.Note, onChosen?: ReactionPicker['onChosen'], onClosed?: ReactionPicker['onClosed']) {
 		this.src.value = src;
 		this.targetNote.value = targetNote;
 		this.manualShowing.value = true;

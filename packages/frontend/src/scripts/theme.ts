@@ -84,7 +84,7 @@ export function applyTheme(theme: Theme, persist = true) {
 
 	const props = compile(_theme);
 
-	for (const tag of document.head.children) {
+	for (const tag of document.head.children as any) {
 		if (tag.tagName === 'META' && tag.getAttribute('name') === 'theme-color') {
 			tag.setAttribute('content', props['htmlThemeColor']);
 			break;
@@ -114,8 +114,8 @@ function compile(theme: Theme): Record<string, string> {
 			return getColor(theme.props[val]);
 		} else if (val[0] === ':') { // func
 			const parts = val.split('<');
-			const func = parts.shift().substring(1);
-			const arg = parseFloat(parts.shift());
+			const func = parts.shift()?.substring(1);
+			const arg = parseFloat(parts.shift() ?? '');
 			const color = getColor(parts.join('<'));
 
 			switch (func) {

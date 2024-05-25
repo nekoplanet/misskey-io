@@ -16,7 +16,7 @@ export function mfmFunctionPicker(src: any, textArea: HTMLInputElement | HTMLTex
 		os.popupMenu([{
 			text: i18n.ts.addMfmFunction,
 			type: 'label',
-		}, ...getFunctionList(textArea, textRef)], src);
+		}, ...getFunctionList(textArea, textRef) as any], src);
 	});
 }
 

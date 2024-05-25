@@ -11,7 +11,7 @@ export function confetti(options: { duration?: number; } = {}) {
 	const animationEnd = Date.now() + duration;
 	const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: os.claimZIndex('high') };
 
-	function randomInRange(min, max) {
+	function randomInRange(min: number, max: number) {
 		return Math.random() * (max - min) + min;
 	}
 

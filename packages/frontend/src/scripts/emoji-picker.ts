@@ -14,7 +14,7 @@ import { defaultStore } from '@/store.js';
  * 一度表示したダイアログを連続で使用できることが望ましいシーンでの利用が想定される。
  */
 class EmojiPicker {
-	private src: Ref<HTMLElement | null> = ref(null);
+	private src: Ref<HTMLElement | undefined> = ref(undefined);
 	private manualShowing = ref(false);
 	private onChosen?: (emoji: string) => void;
 	private onClosed?: () => void;
@@ -39,7 +39,7 @@ class EmojiPicker {
 				this.manualShowing.value = false;
 			},
 			closed: () => {
-				this.src.value = null;
+				this.src.value = undefined;
 				if (this.onClosed) this.onClosed();
 			},
 		});
