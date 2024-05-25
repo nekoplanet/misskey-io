@@ -42,6 +42,17 @@ export default {
 				self._close = undefined;
 			}
 		};
+		if (binding.arg === 'dialog') {
+			el.addEventListener('click', (ev) => {
+				ev.preventDefault();
+				ev.stopPropagation();
+				alert({
+					type: 'info',
+					text: binding.value,
+				});
+				return false;
+			});
+		}
 
 		self.show = () => {
 			if (!document.body.contains(el)) return;
