@@ -338,9 +338,11 @@ describe('FileInfoService', () => {
 			assert.deepStrictEqual(info, {
 				size: 9817,
 				md5: '74c9279a4abe98789565f1dc1a541a42',
-				type: {
-					mime: 'audio/mp4',
-					ext: 'm4a',
+				type: { // Chromium returns MPEG4-audio (audio/mp4, ext: m4a) to video/mp4, mp4
+					//mime: 'audio/mp4',
+					mime: 'video/mp4',
+					//ext: 'm4a',
+					ext: 'mp4',
 				},
 			});
 		});
@@ -358,8 +360,9 @@ describe('FileInfoService', () => {
 			assert.deepStrictEqual(info, {
 				size: 8879,
 				md5: '53bc1adcb6acbbda67ff9bd484896438',
-				type: {
-					mime: 'audio/webm',
+				type: { // Chromium returns WEBM Audio (audio/webm) to mime video/webm
+					//mime: 'audio/webm',
+					mime: 'video/webm',
 					ext: 'webm',
 				},
 			});
