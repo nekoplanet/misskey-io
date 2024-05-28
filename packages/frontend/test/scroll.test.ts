@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { describe, test, assert, afterEach } from 'vitest';
+import { describe, test, assert } from 'vitest';
 import { Window } from 'happy-dom';
 import { onScrollBottom, onScrollTop } from '@/scripts/scroll.js';
 
@@ -26,11 +26,11 @@ describe('Scroll', () => {
 
 		test('No onScrollTop callback for disconnected elements', () => {
 			const { document } = new Window();
-			const div = document.createElement('div');
+			const div = document.createElement('div') as any as HTMLElement;
 			assert.strictEqual(div.scrollTop, 0);
 
 			let called = false;
-			onScrollTop(div as any as HTMLElement, () => called = true);
+			onScrollTop(div, () => called = true);
 
 			assert.ok(!called);
 		});
@@ -54,11 +54,11 @@ describe('Scroll', () => {
 
 		test('No onScrollBottom callback for disconnected elements', () => {
 			const { document } = new Window();
-			const div = document.createElement('div');
+			const div = document.createElement('div') as any as HTMLElement;
 			assert.strictEqual(div.scrollTop, 0);
 
 			let called = false;
-			onScrollBottom(div as any as HTMLElement, () => called = true);
+			onScrollBottom(div, () => called = true);
 
 			assert.ok(!called);
 		});

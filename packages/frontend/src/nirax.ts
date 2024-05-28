@@ -415,7 +415,7 @@ export class Router extends EventEmitter<RouterEvent> implements IRouter {
 				beforePath,
 				path: res._parsedRoute.fullPath,
 				route: res.route,
-				props: res.props,
+				props: res.props as Map<string, string>,
 				key: this.currentKey,
 			});
 		}

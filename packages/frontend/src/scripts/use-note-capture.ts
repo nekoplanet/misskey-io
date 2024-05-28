@@ -60,6 +60,7 @@ export function useNoteCapture(props: {
 			}
 
 			case 'pollVoted': {
+				if (note.value.poll === null || note.value.poll === undefined) break;
 				const choice = body.choice;
 
 				const choices = [...note.value.poll.choices];

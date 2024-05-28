@@ -79,7 +79,7 @@ export function uploadFile(
 			}
 
 			const formData = new FormData();
-			formData.append('i', $i.token);
+			formData.append('i', $i!.token);
 			formData.append('force', 'true');
 			formData.append('file', resizedImage ?? file);
 			formData.append('name', ctx.name);

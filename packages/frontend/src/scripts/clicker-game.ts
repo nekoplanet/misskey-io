@@ -45,7 +45,7 @@ export async function load() {
 	}
 
 	// migration
-	if (saveData.value.gameVersion === 1) {
+	if (saveData.value?.gameVersion === 1) {
 		saveData.value = {
 			gameVersion: 2,
 			cookies: saveData.value.cookies,

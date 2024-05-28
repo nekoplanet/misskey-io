@@ -12,7 +12,7 @@ import { wsOrigin } from '@/config.js';
 const HEART_BEAT_INTERVAL = 1000 * 60;
 
 let stream: Misskey.Stream | null = null;
-let timeoutHeartBeat: ReturnType<typeof setTimeout> | null = null;
+let timeoutHeartBeat: ReturnType<typeof window.setTimeout> | null = null;
 let lastHeartbeatCall = 0;
 
 export function useStream(): Misskey.Stream {
@@ -23,7 +23,7 @@ export function useStream(): Misskey.Stream {
 	} : null));
 
 	if (timeoutHeartBeat) window.clearTimeout(timeoutHeartBeat);
-	timeoutHeartBeat = window.setTimeout(heartbeat, HEART_BEAT_INTERVAL);
+	timeoutHeartBeat = window.setTimeout(heartbeat, HEART_BEAT_INTERVAL) as any;
 
 	// send heartbeat right now when last send time is over HEART_BEAT_INTERVAL
 	document.addEventListener('visibilitychange', () => {
@@ -44,5 +44,5 @@ function heartbeat(): void {
 	}
 	lastHeartbeatCall = Date.now();
 	if (timeoutHeartBeat) window.clearTimeout(timeoutHeartBeat);
-	timeoutHeartBeat = window.setTimeout(heartbeat, HEART_BEAT_INTERVAL);
+	timeoutHeartBeat = window.setTimeout(heartbeat, HEART_BEAT_INTERVAL) as any;
 }

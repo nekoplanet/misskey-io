@@ -7,7 +7,7 @@ import * as Misskey from 'misskey-js';
 import { host as localHost } from '@/config.js';
 
 export async function genSearchQuery(v: any, q: string) {
-	let host: string;
+	let host: string | null;
 	let userId: string;
 	if (q.split(' ').some(x => x.startsWith('@'))) {
 		for (const at of q.split(' ').filter(x => x.startsWith('@')).map(x => x.substring(1))) {

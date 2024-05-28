@@ -7,9 +7,12 @@ This is the phase we are at now. We need to make a high-maintenance environment 
 
 - ~~Make the number of type errors zero (backend)~~ → Done ✔️
 - Make the number of type errors zero (frontend)
+	- https://github.com/nekoplanet/misskey-io/pull/2
 - Improve CI
 	- ~~Fix tests~~ → Done ✔️
-	- Fix random test failures - https://github.com/misskey-dev/misskey/issues/7985 and https://github.com/misskey-dev/misskey/issues/7986
+	- ~~Fix random test failures~~ → Done ✔️
+		- https://github.com/misskey-dev/misskey/issues/7985
+		- https://github.com/misskey-dev/misskey/issues/7986
 	- Add more tests
 		- ~~May need to implement a mechanism that allows for DI~~ → Done ✔️
 			- https://github.com/misskey-dev/misskey/pull/9085

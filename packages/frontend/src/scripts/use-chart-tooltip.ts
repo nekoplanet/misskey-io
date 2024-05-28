@@ -11,12 +11,12 @@ export function useChartTooltip(opts: { position: 'top' | 'middle' } = { positio
 	const tooltipShowing = ref(false);
 	const tooltipX = ref(0);
 	const tooltipY = ref(0);
-	const tooltipTitle = ref<string | null>(null);
+	const tooltipTitle = ref<string | undefined>();
 	const tooltipSeries = ref<{
 		backgroundColor: string;
 		borderColor: string;
 		text: string;
-	}[] | null>(null);
+	}[] | undefined>();
 	let disposeTooltipComponent;
 
 	os.popup(MkChartTooltip, {
@@ -56,7 +56,7 @@ export function useChartTooltip(opts: { position: 'top' | 'middle' } = { positio
 		tooltipX.value = rect.left + window.scrollX + context.tooltip.caretX;
 		if (opts.position === 'top') {
 			tooltipY.value = rect.top + window.scrollY;
-		} else if (opts.position === 'middle') {
+		} else {
 			tooltipY.value = rect.top + window.scrollY + context.tooltip.caretY;
 		}
 	}

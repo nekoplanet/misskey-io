@@ -5,7 +5,7 @@
 
 // PIZZAX --- A lightweight store
 
-import { onUnmounted, Ref, ref, watch } from 'vue';
+import { onUnmounted, Ref, ref, UnwrapRef, watch } from 'vue';
 import { BroadcastChannel } from 'broadcast-channel';
 import { $i } from '@/account.js';
 import { misskeyApi } from '@/scripts/misskey-api.js';
@@ -87,7 +87,7 @@ export class Storage<T extends StateDef> {
 
 	private mergeState<X>(value: X, def: X): X {
 		if (this.isPureObject(value) && this.isPureObject(def)) {
-			const merged = deepMerge(value, def);
+			const merged = deepMerge(value as any, def);
 
 			if (_DEV_) console.log('Merging state. Incoming: ', value, ' Default: ', def, ' Result: ', merged);
 
@@ -268,7 +268,7 @@ export class Storage<T extends StateDef> {
 			set: (value: unknown) => {
 				const val = setter ? setter(value) : value;
 				this.set(key, val);
-				valueRef.value = val;
+				valueRef.value = val as UnwrapRef<State<T>[K]>;
 			},
 		};
 	}
