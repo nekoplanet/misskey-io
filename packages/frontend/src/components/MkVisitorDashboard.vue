@@ -6,7 +6,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 <template>
 <div v-if="instance" :class="$style.root">
 	<div :class="[$style.main, $style.panel]">
-		<img :src="instance.iconUrl || '/favicon.ico'" alt="" :class="$style.mainIcon"/>
+		<img v-if="miLocalStorage.getItem('kawaii')" src="/client-assets/kawaii/misskey.png" alt="Logo by @sawaratsuki@misskey.io" :class="$style.mainIconAlt"/>
+		<img v-else :src="instance.iconUrl || '/favicon.ico'" alt="" :class="$style.mainIcon"/>
 		<button class="_button _acrylic" :class="$style.mainMenu" @click="showMenu"><i class="ti ti-dots"></i></button>
 		<div :class="$style.mainFg">
 			<h1 :class="$style.mainTitle">
@@ -47,24 +48,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<div :class="$style.panel">
 		<XActiveUsersChart/>
 	</div>
-	<div :class="[$style.footer, $style.panel]">
-		<div :class="$style.sponsors">
-			<div><Mfm text="$[jelly ❤]"/> Sponsored by</div>
-			<a title="Skeb" href="https://skeb.jp/" target="_blank"><img src="https://media.misskeyusercontent.jp/misskey-io/sponsors/skeb.png" alt="Skeb" width="140"></a>
-		</div>
-		<div :class="$style.legalNotice">
-			<div>© {{ new Date().getFullYear() }} MisskeyHQ Inc.</div>
-			<a href="https://go.misskey.io/legal-notice" target="_blank" rel="noopener"><u>特定商取引法に基づく表記</u></a>
-		</div>
-		<div :class="$style.links">
-			<a href="#" @click="os.pageWindow('/about')"><u>{{ instanceName }}</u></a>
-			<a href="#" @click="os.pageWindow('/about-misskey')"><u>{{ i18n.ts.aboutMisskey }}</u></a>
-			<a v-if="instance.tosUrl" :href="instance.tosUrl" target="_blank" rel="noopener"><u>{{ i18n.ts.termsOfService }}</u></a>
-			<a v-if="instance.privacyPolicyUrl" :href="instance.privacyPolicyUrl" target="_blank" rel="noopener"><u>{{ i18n.ts.privacyPolicy }}</u></a>
-			<a v-if="instance.impressumUrl" :href="instance.impressumUrl" target="_blank" rel="noopener"><u>{{ i18n.ts.impressum }}</u></a>
-			<a v-if="instance.feedbackUrl" :href="instance.feedbackUrl" target="_blank" rel="noopener"><u>{{ i18n.ts.support }}</u></a>
-		</div>
-	</div>
 </div>
 </template>
 
@@ -81,6 +64,7 @@ import * as os from '@/os.js';
 import { misskeyApi } from '@/scripts/misskey-api.js';
 import { i18n } from '@/i18n.js';
 import { instance } from '@/instance.js';
+import { miLocalStorage } from '@/local-storage.js';
 import MkNumber from '@/components/MkNumber.vue';
 import XActiveUsersChart from '@/components/MkVisitorDashboard.ActiveUsersChart.vue';
 import { openInstanceMenu } from '@/ui/_common_/common';
@@ -134,6 +118,13 @@ function exploreOtherServers() {
 
 .mainIcon {
 	width: 85px;
+	margin-top: -47px;
+	vertical-align: bottom;
+	filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+}
+
+.mainIconAlt {
+	width: 85%;
 	margin-top: -47px;
 	vertical-align: bottom;
 	filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
@@ -217,37 +208,5 @@ function exploreOtherServers() {
 .tlBody {
 	height: 350px;
 	overflow: auto;
-}
-
-.footer {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	padding: 12px 16px;
-	gap: 8px 8px;
-}
-
-.legalNotice {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
-
-.sponsors {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: 8px 8px;
-}
-
-.links {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
-	gap: 8px 8px;
 }
 </style>

@@ -198,6 +198,9 @@ const routes: RouteDef[] = [{
 	path: '/announcements',
 	component: page(() => import('@/pages/announcements.vue')),
 }, {
+	path: '/announcements/:announcementId',
+	component: page(() => import('@/pages/announcement.vue')),
+}, {
 	path: '/about',
 	component: page(() => import('@/pages/about.vue')),
 	hash: 'initialTab',
@@ -439,10 +442,6 @@ const routes: RouteDef[] = [{
 		path: '/email-settings',
 		name: 'email-settings',
 		component: page(() => import('@/pages/admin/email-settings.vue')),
-	}, {
-		path: '/object-storage',
-		name: 'object-storage',
-		component: page(() => import('@/pages/admin/object-storage.vue')),
 	}, {
 		path: '/security',
 		name: 'security',
