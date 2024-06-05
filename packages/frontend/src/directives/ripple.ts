@@ -2,12 +2,12 @@
  * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-
+import { Directive, DirectiveBinding } from 'vue';
 import MkRippleEffect from '@/components/MkRippleEffect.vue';
 import { popup } from '@/os.js';
 
 export default {
-	mounted(el, binding, vn) {
+	mounted(el: HTMLElement, binding: DirectiveBinding<boolean>) {
 		// 明示的に false であればバインドしない
 		if (binding.value === false) return;
 
@@ -20,4 +20,4 @@ export default {
 			popup(MkRippleEffect, { x, y }, {}, 'end');
 		});
 	},
-};
+} as Directive;

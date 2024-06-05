@@ -39,7 +39,7 @@ export async function lookup(router?: Router) {
 
 		if (res.type === 'User') {
 			_router.push(`/@${res.object.username}@${res.object.host}`);
-		} else if (res.type === 'Note') {
+		} else {
 			_router.push(`/notes/${res.object.id}`);
 		}
 

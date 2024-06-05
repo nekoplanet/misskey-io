@@ -9,6 +9,7 @@ import MkChartLegend from '@/components/MkChartLegend.vue';
 export const chartLegend = (legend: InstanceType<typeof MkChartLegend>) => ({
 	id: 'htmlLegend',
 	afterUpdate(chart, args, options) {
+		if (chart.options.plugins?.legend?.labels?.generateLabels === undefined) return;
 		// Reuse the built-in legendItems generator
 		const items = chart.options.plugins.legend.labels.generateLabels(chart);
 

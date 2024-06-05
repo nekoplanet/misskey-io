@@ -7,12 +7,12 @@ import { Directive } from 'vue';
 import { defaultStore } from '@/store.js';
 
 export default {
-	mounted(el: HTMLElement, binding, vn) {
+	mounted(el: HTMLElement) {
 		if (!defaultStore.state.animation) return;
 
 		const target = el.children[0];
 
-		if (target == null) return;
+		//if (target == null) return;
 
 		target.classList.add('_anime_bounce_standBy');
 

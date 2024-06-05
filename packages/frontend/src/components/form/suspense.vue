@@ -24,7 +24,7 @@ import MkButton from '@/components/MkButton.vue';
 import { i18n } from '@/i18n.js';
 
 const props = defineProps<{
-	p: () => Promise<any>;
+	p: (() => Promise<any>) | null;
 }>();
 
 const pending = ref(true);

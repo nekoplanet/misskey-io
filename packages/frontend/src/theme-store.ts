@@ -21,7 +21,7 @@ export async function fetchThemes(): Promise<void> {
 	try {
 		const themes = await misskeyApi('i/registry/get', { scope: ['client'], key: 'themes' });
 		miLocalStorage.setItem(lsCacheKey!, JSON.stringify(themes));
-	} catch (err) {
+	} catch (err: any) {
 		if (err.code === 'NO_SUCH_KEY') return;
 		throw err;
 	}

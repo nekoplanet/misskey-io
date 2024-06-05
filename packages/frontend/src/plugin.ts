@@ -23,12 +23,12 @@ export async function install(plugin: Plugin): Promise<void> {
 		in: aiScriptReadline,
 		out: (value): void => {
 			console.log(value);
-			pluginLogs.value.get(plugin.id).push(utils.reprValue(value));
+			pluginLogs.value.get(plugin.id)?.push(utils.reprValue(value));
 		},
 		log: (): void => {
 		},
 		err: (err): void => {
-			pluginLogs.value.get(plugin.id).push(`${err}`);
+			pluginLogs.value.get(plugin.id)?.push(`${err}`);
 			throw err; // install時のtry-catchに反応させる
 		},
 	});

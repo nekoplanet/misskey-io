@@ -7,6 +7,7 @@ import { defineAsyncComponent } from 'vue';
 import { compareVersions } from 'compare-versions';
 import { v4 as uuid } from 'uuid';
 import { Interpreter, Parser, utils } from '@syuilo/aiscript';
+import * as Misskey from 'misskey-js';
 import type { Plugin } from '@/store.js';
 import { ColdDeviceStorage } from '@/store.js';
 import * as os from '@/os.js';
@@ -102,12 +103,12 @@ export async function installPlugin(code: string, meta?: AiScriptPluginMeta) {
 		realMeta = meta;
 	}
 
-	const token = realMeta.permissions == null || realMeta.permissions.length === 0 ? null : await new Promise((res, rej) => {
+	const token = (realMeta.permissions == null || realMeta.permissions.length === 0 ? null : await new Promise((res, rej) => {
 		os.popup(defineAsyncComponent(() => import('@/components/MkTokenGenerateWindow.vue')), {
 			title: i18n.ts.tokenRequested,
 			information: i18n.ts.pluginTokenRequestedDescription,
 			initialName: realMeta.name,
-			initialPermissions: realMeta.permissions,
+			initialPermissions: realMeta.permissions as ((typeof Misskey.permissions)[number][] | null),
 		}, {
 			done: async result => {
 				const { name, permissions } = result;
@@ -119,7 +120,7 @@ export async function installPlugin(code: string, meta?: AiScriptPluginMeta) {
 				res(token);
 			},
 		}, 'closed');
-	});
+	})) as string;
 
 	savePlugin({
 		id: uuid(),
