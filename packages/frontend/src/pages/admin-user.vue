@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 <MkStickyContainer>
 	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :contentMax="600" :marginMin="16" :marginMax="32">
-		<FormSuspense :p="init">
+		<FormSuspense :p="(init ?? null)">
 			<div v-if="tab === 'overview'" class="_gaps_m">
 				<div class="aeakzknw">
 					<MkAvatar class="avatar" :user="user" indicator link preview/>
@@ -25,18 +25,18 @@ SPDX-License-Identifier: AGPL-3.0-only
 					</div>
 				</div>
 
-				<MkInfo v-if="user.username.includes('.')">{{ i18n.ts.isSystemAccount }}</MkInfo>
+				<MkInfo v-if="user?.username.includes('.')">{{ i18n.ts.isSystemAccount }}</MkInfo>
 
-				<FormLink v-if="user.host" :to="`/instance-info/${user.host}`">{{ i18n.ts.instanceInfo }}</FormLink>
+				<FormLink v-if="user?.host" :to="`/instance-info/${user.host}`">{{ i18n.ts.instanceInfo }}</FormLink>
 
 				<div style="display: flex; flex-direction: column; gap: 1em;">
-					<MkKeyValue :copy="user.id" oneline>
+					<MkKeyValue :copy="user!.id" oneline>
 						<template #key>ID</template>
-						<template #value><span class="_monospace">{{ user.id }}</span></template>
+						<template #value><span class="_monospace">{{ user!.id }}</span></template>
 					</MkKeyValue>
 					<MkKeyValue oneline>
 						<template #key>{{ i18n.ts.createdAt }}</template>
-						<template #value><span class="_monospace"><MkTime :time="user.createdAt" :mode="'detail'"/></span></template>
+						<template #value><span class="_monospace"><MkTime :time="user!.createdAt" :mode="'detail'"/></span></template>
 					</MkKeyValue>
 					<MkKeyValue v-if="info" oneline>
 						<template #key>{{ i18n.ts.lastActiveDate }}</template>
@@ -46,7 +46,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 						<template #key>{{ i18n.ts.email }}</template>
 						<template #value><span class="_monospace">{{ info.email }}</span></template>
 					</MkKeyValue>
-					<MkKeyValue v-if="ips.length > 0" :copy="ips[0].ip" oneline>
+					<MkKeyValue v-if="ips && ips.length > 0" :copy="ips[0].ip" oneline>
 						<template #key>IP (recent)</template>
 						<template #value><span class="_monospace">{{ ips[0].ip }}</span></template>
 					</MkKeyValue>
@@ -63,7 +63,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<template #label>{{ i18n.ts.moderation }}</template>
 							<div class="_gaps">
 								<MkSwitch v-model="suspended" @update:modelValue="toggleSuspend">{{ i18n.ts.suspend }}</MkSwitch>
-								<MkButton v-if="user.host == null" @click="resetPassword"><i class="ti ti-key"></i> {{ i18n.ts.resetPassword }}</MkButton>
+								<MkButton v-if="user!.host == null" @click="resetPassword"><i class="ti ti-key"></i> {{ i18n.ts.resetPassword }}</MkButton>
 								<MkButton inline danger @click="unsetUserAvatar"><i class="ti ti-user-circle"></i> {{ i18n.ts.unsetUserAvatar }}</MkButton>
 								<MkButton inline danger @click="unsetUserBanner"><i class="ti ti-photo"></i> {{ i18n.ts.unsetUserBanner }}</MkButton>
 							</div>
@@ -92,7 +92,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 							</template>
 						</MkFolder>
 
-						<MkFolder v-if="$i.isAdmin">
+						<MkFolder v-if="$i!.isAdmin">
 							<template #icon><i class="ti ti-user-x"></i></template>
 							<template #label>{{ i18n.ts.deleteAccount }}</template>
 							<div class="_gaps">
@@ -166,7 +166,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 			<div v-else-if="tab === 'activitypub'" class="_gaps_m">
 				<div style="display: flex; flex-direction: column; gap: 1em;">
-					<MkKeyValue v-if="user.host" oneline>
+					<MkKeyValue v-if="user?.host" oneline>
 						<template #key>{{ i18n.ts.instanceInfo }}</template>
 						<template #value><MkA :to="`/instance-info/${user.host}`" class="_link">{{ user.host }} <i class="ti ti-chevron-right"></i></MkA></template>
 					</MkKeyValue>
@@ -176,7 +176,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					</MkKeyValue>
 					<MkKeyValue oneline>
 						<template #key>{{ i18n.ts.updatedAt }}</template>
-						<template #value><MkTime v-if="user.lastFetchedAt" mode="detail" :time="user.lastFetchedAt"/><span v-else>N/A</span></template>
+						<template #value><MkTime v-if="user?.lastFetchedAt" mode="detail" :time="user.lastFetchedAt"/><span v-else>N/A</span></template>
 					</MkKeyValue>
 					<MkKeyValue v-if="ap" oneline>
 						<template #key>Type</template>
@@ -184,7 +184,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					</MkKeyValue>
 				</div>
 
-				<MkButton v-if="user.host != null" @click="updateRemoteUser"><i class="ti ti-refresh"></i> {{ i18n.ts.updateRemoteUser }}</MkButton>
+				<MkButton v-if="user?.host != null" @click="updateRemoteUser"><i class="ti ti-refresh"></i> {{ i18n.ts.updateRemoteUser }}</MkButton>
 
 				<MkFolder>
 					<template #label>Raw</template>
@@ -195,7 +195,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</div>
 
 			<div v-else-if="tab === 'raw'" class="_gaps_m">
-				<MkObjectView v-if="info && $i.isAdmin" tall :value="info">
+				<MkObjectView v-if="info && $i && $i.isAdmin" tall :value="info">
 				</MkObjectView>
 
 				<MkObjectView tall :value="user">
@@ -269,7 +269,7 @@ const announcementsPagination = {
 		userId: props.userId,
 	})),
 };
-const expandedRoles = ref([]);
+const expandedRoles = ref<Misskey.entities.Role[]>([]);
 
 function createFetcher() {
 	return () => Promise.all([misskeyApi('users/show', {
@@ -292,7 +292,8 @@ function createFetcher() {
 
 		watch(moderationNote, async () => {
 			await misskeyApi('admin/update-user-note', {
-				userId: user.value.id, text: moderationNote.value
+				userId: user.value!.id,
+				text: moderationNote.value,
 			}).then(refreshUser);
 		});
 	});
@@ -303,9 +304,7 @@ function refreshUser() {
 }
 
 async function updateRemoteUser() {
-	await os.apiWithDialog('federation/update-remote-user', {
-		userId: user.value.id
-	}).then(refreshUser);
+	await os.apiWithDialog('federation/update-remote-user', { userId: user.value!.id }).then(refreshUser);
 }
 
 async function resetPassword() {
@@ -317,7 +316,7 @@ async function resetPassword() {
 		return;
 	} else {
 		const { password } = await misskeyApi('admin/reset-password', {
-			userId: user.value.id,
+			userId: user.value!.id,
 		});
 		os.alert({
 			type: 'success',
@@ -335,7 +334,7 @@ async function toggleSuspend(v) {
 		suspended.value = !v;
 	} else {
 		await misskeyApi(v ? 'admin/suspend-user' : 'admin/unsuspend-user', {
-			userId: user.value.id
+			userId: user.value!.id
 		}).then(refreshUser);
 	}
 }
@@ -348,7 +347,7 @@ async function unsetUserAvatar() {
 	if (confirm.canceled) return;
 
 	await os.apiWithDialog('admin/unset-user-avatar', {
-		userId: user.value.id
+		userId: user.value!.id
 	}).then(refreshUser);
 }
 
@@ -360,7 +359,7 @@ async function unsetUserBanner() {
 	if (confirm.canceled) return;
 
 	await os.apiWithDialog('admin/unset-user-banner', {
-		userId: user.value.id
+		userId: user.value!.id
 	}).then(refreshUser);
 }
 
@@ -372,7 +371,7 @@ async function deleteAllFiles() {
 	if (confirm.canceled) return;
 
 	const typed = await os.inputText({
-		text: i18n.tsx.typeToConfirm({ x: user.value?.username }),
+		text: i18n.tsx.typeToConfirm({ x: user.value?.username as string }),
 	});
 	if (typed.canceled) return;
 
@@ -396,7 +395,7 @@ async function deleteAccount(soft: boolean) {
 	if (confirm.canceled) return;
 
 	const typed = await os.inputText({
-		text: i18n.tsx.typeToConfirm({ x: user.value?.username }),
+		text: i18n.tsx.typeToConfirm({ x: user.value?.username as string }),
 	});
 	if (typed.canceled) return;
 
@@ -447,7 +446,9 @@ async function assignRole() {
 		: null;
 
 	await os.apiWithDialog('admin/roles/assign', {
-		roleId, userId: user.value.id, expiresAt
+		roleId,
+		userId: user.value!.id,
+		expiresAt,
 	}).then(refreshUser);
 }
 
@@ -458,7 +459,7 @@ async function unassignRole(role, ev) {
 		danger: true,
 		action: async () => {
 			await os.apiWithDialog('admin/roles/unassign', {
-				roleId: role.id, userId: user.value.id
+				roleId: role.id, userId: user.value!.id
 			}).then(refreshUser);
 		},
 	}], ev.currentTarget ?? ev.target);
@@ -474,7 +475,7 @@ function toggleRoleItem(role) {
 
 function createAnnouncement(): void {
 	os.popup(defineAsyncComponent(() => import('@/components/MkUserAnnouncementEditDialog.vue')), {
-		user: user.value,
+		user: user.value!,
 	}, {
 		done: async () => {
 			announcementsPaginationEl.value?.reload();
@@ -484,7 +485,7 @@ function createAnnouncement(): void {
 
 function editAnnouncement(announcement): void {
 	os.popup(defineAsyncComponent(() => import('@/components/MkUserAnnouncementEditDialog.vue')), {
-		user: user.value,
+		user: user.value!,
 		announcement,
 	}, {
 		done: async () => {
@@ -501,7 +502,7 @@ watch(() => props.userId, () => {
 
 watch(user, () => {
 	misskeyApi('ap/get', {
-		uri: user.value.uri ?? `${url}/users/${user.value.id}`,
+		uri: user.value!.uri ?? `${url}/users/${user.value!.id}`,
 	}).then(res => {
 		ap.value = res;
 	});

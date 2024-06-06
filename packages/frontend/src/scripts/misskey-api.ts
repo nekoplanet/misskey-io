@@ -22,6 +22,7 @@ export function misskeyApi<
 	signal?: AbortSignal,
 ): Promise<_ResT> {
 	if (endpoint.includes('://')) throw new Error('invalid endpoint');
+	if (data === undefined) throw new Error('Data is empty');
 	pendingApiRequestsCount.value++;
 
 	const onFinally = () => {

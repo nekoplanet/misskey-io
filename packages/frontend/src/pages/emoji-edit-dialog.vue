@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 	:initialWidth="400"
 	:initialHeight="500"
 	:canResize="false"
-	@close="windowEl.close()"
+	@close="windowEl?.close()"
 	@closed="$emit('closed')"
 >
 	<template v-if="emoji" #header>:{{ emoji.name }}:</template>
@@ -36,7 +36,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<MkInput v-model="name" pattern="[a-z0-9_]" autocapitalize="off">
 					<template #label>{{ i18n.ts.name }}</template>
 				</MkInput>
-				<MkInput v-model="category" :datalist="customEmojiCategories">
+				<MkInput v-model="category" :datalist="(customEmojiCategories as string[])">
 					<template #label>{{ i18n.ts.category }}</template>
 				</MkInput>
 				<MkInput v-model="aliases" autocapitalize="off">
@@ -203,11 +203,12 @@ async function done() {
 		memo: memo.value,
 		roleIdsThatCanBeUsedThisEmojiAsReaction: rolesThatCanBeUsedThisEmojiAsReaction.value.map(x => x.id),
 		roleIdsThatCanNotBeUsedThisEmojiAsReaction: rolesThatCanNotBeUsedThisEmojiAsReaction.value.map(x => x.id),
+		fileId: (file.value?.id ?? undefined),
 	};
 
-	if (file.value) {
-		params.fileId = file.value.id;
-	}
+	// if (file.value) {
+	// 	params.fileId = file.value.id;
+	// }
 
 	if (props.emoji) {
 		await os.apiWithDialog('admin/emoji/update', {
@@ -222,15 +223,15 @@ async function done() {
 			},
 		});
 
-		windowEl.value.close();
+		windowEl.value?.close();
 	} else {
-		const created = await os.apiWithDialog('admin/emoji/add', params);
+		const created = await os.apiWithDialog('admin/emoji/add', params as any);
 
 		emit('done', {
 			created: created,
 		});
 
-		windowEl.value.close();
+		windowEl.value?.close();
 	}
 }
 
@@ -247,7 +248,7 @@ async function del() {
 		emit('done', {
 			deleted: true,
 		});
-		windowEl.value.close();
+		windowEl.value?.close();
 	});
 }
 </script>

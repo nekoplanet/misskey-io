@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 <template>
 <div>
 	<MkStickyContainer>
-		<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
+		<template #header><MkPageHeader v-model:tab="tab" :actions="(headerActions as any)" :tabs="headerTabs"/></template>
 		<MkSpacer :contentMax="900">
 			<div class="ogwlenmc">
 				<div v-if="tab === 'local'" class="local">
@@ -116,7 +116,7 @@ const selectAll = () => {
 	if (selectedEmojis.value.length > 0) {
 		selectedEmojis.value = [];
 	} else {
-		selectedEmojis.value = Array.from(emojisPaginationComponent.value.items.values(), item => item.id);
+		selectedEmojis.value = Array.from(emojisPaginationComponent.value!.items.values(), item => item.id);
 	}
 };
 
@@ -133,7 +133,7 @@ const add = async (ev: MouseEvent) => {
 	}, {
 		done: result => {
 			if (result.created) {
-				emojisPaginationComponent.value.prepend(result.created);
+				emojisPaginationComponent.value?.prepend(result.created);
 			}
 		},
 	}, 'closed');
@@ -145,12 +145,12 @@ const edit = (emoji) => {
 	}, {
 		done: result => {
 			if (result.updated) {
-				emojisPaginationComponent.value.updateItem(result.updated.id, (oldEmoji: any) => ({
+				emojisPaginationComponent.value?.updateItem(result.updated.id, (oldEmoji: any) => ({
 					...oldEmoji,
 					...result.updated,
 				}));
 			} else if (result.deleted) {
-				emojisPaginationComponent.value.removeItem((item) => item.id === emoji.id);
+				emojisPaginationComponent.value?.removeItem((item) => item.id === emoji.id);
 			}
 		},
 	}, 'closed');
@@ -249,7 +249,7 @@ const addTagBulk = async () => {
 	if (canceled) return;
 	await os.apiWithDialog('admin/emoji/add-aliases-bulk', {
 		ids: selectedEmojis.value,
-		aliases: result.split(' '),
+		aliases: result!.split(' '),
 	});
 	selectedEmojis.value = [];
 	emojisPaginationComponent.value?.reload();
@@ -262,7 +262,7 @@ const removeTagBulk = async () => {
 	if (canceled) return;
 	await os.apiWithDialog('admin/emoji/remove-aliases-bulk', {
 		ids: selectedEmojis.value,
-		aliases: result.split(' '),
+		aliases: result!.split(' '),
 	});
 	selectedEmojis.value = [];
 	emojisPaginationComponent.value?.reload();
@@ -275,7 +275,7 @@ const setTagBulk = async () => {
 	if (canceled) return;
 	await os.apiWithDialog('admin/emoji/set-aliases-bulk', {
 		ids: selectedEmojis.value,
-		aliases: result.split(' '),
+		aliases: result!.split(' '),
 	});
 	selectedEmojis.value = [];
 	emojisPaginationComponent.value?.reload();

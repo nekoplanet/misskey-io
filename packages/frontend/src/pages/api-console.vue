@@ -70,7 +70,7 @@ function send() {
 function onEndpointChange() {
 	misskeyApi('endpoint', { endpoint: endpoint.value }, withCredential.value ? undefined : null).then(resp => {
 		const endpointBody = {};
-		for (const p of resp.params) {
+		for (const p of resp!.params) {
 			endpointBody[p.name] =
 				p.type === 'String' ? '' :
 				p.type === 'Number' ? 0 :

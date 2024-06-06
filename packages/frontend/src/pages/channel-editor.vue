@@ -118,6 +118,7 @@ async function fetchChannel() {
 	channel.value = await misskeyApi('channels/show', {
 		channelId: props.channelId,
 	});
+	if (channel.value == null) return;
 
 	name.value = channel.value.name;
 	description.value = channel.value.description;
@@ -139,7 +140,7 @@ async function addPinnedNote() {
 	});
 	if (canceled) return;
 	const note = await os.apiWithDialog('notes/show', {
-		noteId: value.includes('/') ? value.split('/').pop() : value,
+		noteId: value?.includes('/') ? value.split('/').pop() as string : value ?? '',
 	});
 	pinnedNotes.value = [{
 		id: note.id,
@@ -159,13 +160,14 @@ function save() {
 		color: color.value,
 		isSensitive: isSensitive.value,
 		allowRenoteToExternal: allowRenoteToExternal.value,
+		channelId: '',
 	};
 
 	if (props.channelId) {
 		params.channelId = props.channelId;
-		os.apiWithDialog('channels/update', params);
+		os.apiWithDialog('channels/update', params as any);
 	} else {
-		os.apiWithDialog('channels/create', params).then(created => {
+		os.apiWithDialog('channels/create', params as any).then(created => {
 			router.push(`/channels/${created.id}`);
 		});
 	}
@@ -174,14 +176,14 @@ function save() {
 async function archive() {
 	const { canceled } = await os.confirm({
 		type: 'warning',
-		title: i18n.tsx.channelArchiveConfirmTitle({ name: name.value }),
+		title: i18n.tsx.channelArchiveConfirmTitle({ name: name.value as string }),
 		text: i18n.ts.channelArchiveConfirmDescription,
 	});
 
 	if (canceled) return;
 
 	misskeyApi('channels/update', {
-		channelId: props.channelId,
+		channelId: props.channelId as string,
 		isArchived: true,
 	}).then(() => {
 		os.success();

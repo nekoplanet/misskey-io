@@ -13,12 +13,12 @@ import darkTheme from '@/themes/_dark.json5';
 import { miLocalStorage } from '@/local-storage.js';
 
 export type Theme = {
-	id: string;
-	name: string;
-	author: string;
+	id?: string;
+	name?: string;
+	author?: string;
 	desc?: string;
 	base?: 'dark' | 'light';
-	props: Record<string, string>;
+	props?: Record<string, string>;
 	codeHighlighter?: {
 		base: BundledTheme;
 		overrides?: Record<string, any>;
@@ -28,7 +28,7 @@ export type Theme = {
 	};
 };
 
-export const themeProps = Object.keys(lightTheme.props).filter(key => !key.startsWith('X'));
+export const themeProps = Object.keys(lightTheme.props!).filter(key => !key.startsWith('X'));
 
 export const getBuiltinThemes = () => Promise.all(
 	[
@@ -109,9 +109,9 @@ export function applyTheme(theme: Theme, persist = true) {
 function compile(theme: Theme): Record<string, string> {
 	function getColor(val: string): tinycolor.Instance {
 		if (val[0] === '@') { // ref (prop)
-			return getColor(theme.props[val.substring(1)]);
+			return getColor(theme.props![val.substring(1)]);
 		} else if (val[0] === '$') { // ref (const)
-			return getColor(theme.props[val]);
+			return getColor(theme.props![val]);
 		} else if (val[0] === ':') { // func
 			const parts = val.split('<');
 			const func = parts.shift()?.substring(1);
@@ -133,7 +133,7 @@ function compile(theme: Theme): Record<string, string> {
 
 	const props = {};
 
-	for (const [k, v] of Object.entries(theme.props)) {
+	for (const [k, v] of Object.entries(theme.props!)) {
 		if (k.startsWith('$')) continue; // ignore const
 
 		props[k] = v.startsWith('"') ? v.replace(/^"\s*/, '') : genValue(getColor(v));

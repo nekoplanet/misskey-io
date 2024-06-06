@@ -129,8 +129,8 @@ const data = ref<{
 	raw: string;
 	meta?: {
 		// Plugin & Theme Common
-		name: string;
-		author: string;
+		name?: string;
+		author?: string;
 
 		// Plugin
 		description?: string;
@@ -233,7 +233,7 @@ async function fetch() {
 					raw: res.data,
 				};
 			} catch (err) {
-				switch (err.message.toLowerCase()) {
+				switch ((err as Error).message.toLowerCase()) {
 					case 'this theme is already installed':
 						errorKV.value = {
 							title: i18n.ts._externalResourceInstaller._errors._themeParseFailed.title,

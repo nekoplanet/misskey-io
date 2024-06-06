@@ -96,7 +96,7 @@ const props = defineProps<{
 async function fetch() {
 	file.value = await misskeyApi('drive/files/show', { fileId: props.fileId });
 	info.value = await misskeyApi('admin/drive/show-file', { fileId: props.fileId });
-	isSensitive.value = file.value.isSensitive;
+	isSensitive.value = file.value!.isSensitive;
 }
 
 fetch();
@@ -104,12 +104,12 @@ fetch();
 async function del() {
 	const { canceled } = await os.confirm({
 		type: 'warning',
-		text: i18n.tsx.removeAreYouSure({ x: file.value.name }),
+		text: i18n.tsx.removeAreYouSure({ x: file.value!.name }),
 	});
 	if (canceled) return;
 
 	os.apiWithDialog('drive/files/delete', {
-		fileId: file.value.id,
+		fileId: file.value!.id,
 	});
 }
 
@@ -122,7 +122,7 @@ const headerActions = computed(() => [{
 	text: i18n.ts.openInNewTab,
 	icon: 'ti ti-external-link',
 	handler: () => {
-		window.open(file.value.url, '_blank', 'noopener');
+		window.open(file.value!.url, '_blank', 'noopener');
 	},
 }]);
 

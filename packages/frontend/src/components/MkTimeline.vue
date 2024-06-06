@@ -22,7 +22,7 @@ import * as Misskey from 'misskey-js';
 import MkNotes from '@/components/MkNotes.vue';
 import MkPullToRefresh from '@/components/MkPullToRefresh.vue';
 import { useStream } from '@/stream.js';
-import * as sound from '@/scripts/sound.js';
+import * as MkSound from '@/scripts/sound.js';
 import { $i } from '@/account.js';
 import { instance } from '@/instance.js';
 import { defaultStore } from '@/store.js';
@@ -82,7 +82,7 @@ function prepend(note) {
 	emit('note');
 
 	if (props.sound) {
-		sound.playMisskeySfx($i && (note.userId === $i.id) ? 'noteMy' : 'note');
+		MkSound.playMisskeySfx($i && (note.userId === $i.id) ? 'noteMy' : 'note');
 	}
 }
 
@@ -97,38 +97,38 @@ function connectChannel() {
 		if (props.antenna == null) return;
 		connection = stream.useChannel('antenna', {
 			antennaId: props.antenna,
-		});
+		}) as unknown as Misskey.ChannelConnection;
 	} else if (props.src === 'home') {
 		connection = stream.useChannel('homeTimeline', {
 			withRenotes: props.withRenotes,
 			withFiles: props.onlyFiles ? true : undefined,
-		});
-		connection2 = stream.useChannel('main');
+		}) as unknown as Misskey.ChannelConnection;
+		connection2 = stream.useChannel('main') as unknown as Misskey.ChannelConnection;
 	} else if (props.src === 'local') {
 		connection = stream.useChannel('localTimeline', {
 			withRenotes: props.withRenotes,
 			withReplies: props.withReplies,
 			withFiles: props.onlyFiles ? true : undefined,
-		});
+		}) as unknown as Misskey.ChannelConnection;
 	} else if (props.src === 'media') {
 		connection = stream.useChannel('hybridTimeline', {
 			withRenotes: props.withRenotes,
 			withReplies: props.withReplies,
 			withFiles: true,
-		});
+		}) as unknown as Misskey.ChannelConnection;
 	} else if (props.src === 'social') {
 		connection = stream.useChannel('hybridTimeline', {
 			withRenotes: props.withRenotes,
 			withReplies: props.withReplies,
 			withFiles: props.onlyFiles ? true : undefined,
-		});
+		}) as unknown as Misskey.ChannelConnection;
 	} else if (props.src === 'global') {
 		connection = stream.useChannel('globalTimeline', {
 			withRenotes: props.withRenotes,
 			withFiles: props.onlyFiles ? true : undefined,
-		});
+		}) as unknown as Misskey.ChannelConnection;
 	} else if (props.src === 'mentions') {
-		connection = stream.useChannel('main');
+		connection = stream.useChannel('main') as unknown as Misskey.ChannelConnection;
 		connection.on('mention', prepend);
 	} else if (props.src === 'directs') {
 		const onNote = note => {
@@ -136,7 +136,7 @@ function connectChannel() {
 				prepend(note);
 			}
 		};
-		connection = stream.useChannel('main');
+		connection = stream.useChannel('main') as unknown as Misskey.ChannelConnection;
 		connection.on('mention', onNote);
 	} else if (props.src === 'list') {
 		if (props.list == null) return;
@@ -144,17 +144,17 @@ function connectChannel() {
 			withRenotes: props.withRenotes,
 			withFiles: props.onlyFiles ? true : undefined,
 			listId: props.list,
-		});
+		}) as unknown as Misskey.ChannelConnection;
 	} else if (props.src === 'channel') {
 		if (props.channel == null) return;
 		connection = stream.useChannel('channel', {
 			channelId: props.channel,
-		});
+		}) as unknown as Misskey.ChannelConnection;
 	} else if (props.src === 'role') {
 		if (props.role == null) return;
 		connection = stream.useChannel('roleTimeline', {
 			roleId: props.role,
-		});
+		}) as unknown as Misskey.ChannelConnection;
 	}
 	if (props.src !== 'directs' && props.src !== 'mentions') connection?.on('note', prepend);
 }

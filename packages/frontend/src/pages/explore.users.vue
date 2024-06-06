@@ -13,19 +13,19 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<template v-if="tag == null">
 			<MkFoldableSection class="_margin" persistKey="explore-pinned-users">
 				<template #header><i class="ti ti-bookmark ti-fw" style="margin-right: 0.5em;"></i>{{ i18n.ts.pinnedUsers }}</template>
-				<MkUserList :pagination="pinnedUsers"/>
+				<MkUserList :pagination="(pinnedUsers as any)"/>
 			</MkFoldableSection>
 			<MkFoldableSection class="_margin" persistKey="explore-popular-users">
 				<template #header><i class="ti ti-chart-line ti-fw" style="margin-right: 0.5em;"></i>{{ i18n.ts.popularUsers }}</template>
-				<MkUserList :pagination="popularUsers"/>
+				<MkUserList :pagination="(popularUsers as any)"/>
 			</MkFoldableSection>
 			<MkFoldableSection class="_margin" persistKey="explore-recently-updated-users">
 				<template #header><i class="ti ti-message ti-fw" style="margin-right: 0.5em;"></i>{{ i18n.ts.recentlyUpdatedUsers }}</template>
-				<MkUserList :pagination="recentlyUpdatedUsers"/>
+				<MkUserList :pagination="(recentlyUpdatedUsers as any)"/>
 			</MkFoldableSection>
 			<MkFoldableSection class="_margin" persistKey="explore-recently-registered-users">
 				<template #header><i class="ti ti-plus ti-fw" style="margin-right: 0.5em;"></i>{{ i18n.ts.recentlyRegisteredUsers }}</template>
-				<MkUserList :pagination="recentlyRegisteredUsers"/>
+				<MkUserList :pagination="(recentlyRegisteredUsers as any)"/>
 			</MkFoldableSection>
 		</template>
 	</div>
@@ -47,15 +47,15 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<template v-if="tag == null">
 			<MkFoldableSection class="_margin">
 				<template #header><i class="ti ti-chart-line ti-fw" style="margin-right: 0.5em;"></i>{{ i18n.ts.popularUsers }}</template>
-				<MkUserList :pagination="popularUsersF"/>
+				<MkUserList :pagination="(popularUsersF as any)"/>
 			</MkFoldableSection>
 			<MkFoldableSection class="_margin">
 				<template #header><i class="ti ti-message ti-fw" style="margin-right: 0.5em;"></i>{{ i18n.ts.recentlyUpdatedUsers }}</template>
-				<MkUserList :pagination="recentlyUpdatedUsersF"/>
+				<MkUserList :pagination="(recentlyUpdatedUsersF as any)"/>
 			</MkFoldableSection>
 			<MkFoldableSection class="_margin">
 				<template #header><i class="ti ti-rocket ti-fw" style="margin-right: 0.5em;"></i>{{ i18n.ts.recentlyDiscoveredUsers }}</template>
-				<MkUserList :pagination="recentlyRegisteredUsersF"/>
+				<MkUserList :pagination="(recentlyRegisteredUsersF as any)"/>
 			</MkFoldableSection>
 		</template>
 	</div>

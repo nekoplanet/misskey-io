@@ -53,16 +53,16 @@ function queueUpdated(q) {
 }
 
 function top() {
-	scroll(rootEl.value, { top: 0 });
+	scroll(rootEl.value as HTMLElement, { top: 0 });
 }
 
 async function timetravel() {
 	const { canceled, result: date } = await os.inputDate({
-		title: i18n.ts.date,
+		title: i18n.ts.date as string,
 	});
 	if (canceled) return;
 
-	tlEl.value.timetravel(date);
+	tlEl.value!.timetravel(date);
 }
 
 function settings() {
@@ -70,7 +70,7 @@ function settings() {
 }
 
 function focus() {
-	tlEl.value.focus();
+	tlEl.value!.focus();
 }
 
 watch(() => props.antennaId, async () => {

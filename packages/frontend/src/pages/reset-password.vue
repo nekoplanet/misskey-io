@@ -40,7 +40,7 @@ async function save() {
 	submitting.value = true;
 
 	await os.apiWithDialog('reset-password', {
-		token: props.token,
+		token: props.token as string,
 		password: newPassword.value.password,
 	});
 	mainRouter.push('/');

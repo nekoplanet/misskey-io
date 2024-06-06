@@ -80,7 +80,7 @@ onMounted(async () => {
 		});
 
 		// 既に連携していた場合
-		if (session.value.app.isAuthorized) {
+		if (session.value?.app.isAuthorized) {
 			await misskeyApi('auth/accept', {
 				token: session.value.token,
 			});

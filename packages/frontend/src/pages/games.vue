@@ -19,7 +19,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				</MkA>
 			</div>
 		</div>
-		<MkPagination v-slot="{items}" :pagination="featuredPagination">
+		<MkPagination v-slot="{items}" :pagination="(featuredPagination as any)">
 			<MkChannelPreview v-for="channel in items" :key="channel.id" class="_margin" :channel="channel"/>
 		</MkPagination>
 	</MkSpacer>

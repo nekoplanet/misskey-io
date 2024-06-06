@@ -74,21 +74,21 @@ function fetch() {
 	});
 }
 
-async function read(announcement): Promise<void> {
-	if (announcement.needConfirmationToRead) {
+async function read(_announcement: Misskey.entities.Announcement): Promise<void> {
+	if (_announcement.needConfirmationToRead) {
 		const confirm = await os.confirm({
 			type: 'question',
 			title: i18n.ts._announcement.readConfirmTitle,
-			text: i18n.tsx._announcement.readConfirmText({ title: announcement.title }),
+			text: i18n.tsx._announcement.readConfirmText({ title: _announcement.title }),
 		});
 		if (confirm.canceled) return;
 	}
 
-	announcement.isRead = true;
-	await misskeyApi('i/read-announcement', { announcementId: announcement.id });
+	_announcement.isRead = true;
+	await misskeyApi('i/read-announcement', { announcementId: _announcement.id });
 	if ($i) {
 		updateAccount({
-			unreadAnnouncements: $i.unreadAnnouncements.filter((a: { id: string; }) => a.id !== announcement.id),
+			unreadAnnouncements: $i.unreadAnnouncements.filter((a: { id: string; }) => a.id !== _announcement.id),
 		});
 	}
 }

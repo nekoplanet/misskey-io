@@ -4023,6 +4023,7 @@ export type components = {
           /** Format: date-time */
           lastUsed: string;
         }[];
+			token?: string;
     };
     UserDetailedNotMe: components['schemas']['UserLite'] & components['schemas']['UserDetailedNotMeOnly'];
     MeDetailed: components['schemas']['UserLite'] & components['schemas']['UserDetailedNotMeOnly'] & components['schemas']['MeDetailedOnly'];
@@ -4039,6 +4040,8 @@ export type components = {
       name: string;
       userIds?: string[];
       isPublic: boolean;
+			isLiked?: boolean;
+			likedCount?: number;
     };
     UserListMembership: {
       /**
@@ -6600,6 +6603,11 @@ export type operations = {
                * @example xxxxxxxxxx
                */
               id: string;
+							/**
+							 * Format: id
+							 * @example
+							 */
+							_id?: string;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */

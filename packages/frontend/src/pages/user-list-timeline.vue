@@ -55,7 +55,7 @@ function queueUpdated(q) {
 }
 
 function top() {
-	scroll(rootEl.value, { top: 0 });
+	scroll(rootEl.value as HTMLElement, { top: 0 });
 }
 
 function settings() {

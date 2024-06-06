@@ -92,7 +92,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<template #icon><i class="ti ti-clock"></i></template>
 					<template #header>{{ i18n.ts.recentPosts }}</template>
 					<MkPagination v-slot="{items}" :pagination="otherPostsPagination" :class="$style.relatedPagesRoot" class="_gaps">
-						<MkPagePreview v-for="page in items" :key="page.id" :page="page" :class="$style.relatedPagesItem"/>
+						<MkPagePreview v-for="page in items" :key="page.id" :page="(page as any)" :class="$style.relatedPagesItem"/>
 					</MkPagination>
 				</MkContainer>
 			</div>
@@ -138,7 +138,7 @@ const otherPostsPagination = {
 	endpoint: 'users/pages' as const,
 	limit: 6,
 	params: computed(() => ({
-		userId: page.value.user.id,
+		userId: page.value?.user.id,
 	})),
 };
 const path = computed(() => props.username + '/' + props.pageName);
@@ -155,7 +155,7 @@ function fetchPage() {
 		if (pageViewInterruptors.length > 0) {
 			let result = deepClone(_page);
 			for (const interruptor of pageViewInterruptors) {
-				result = await interruptor.handler(result);
+				result = await interruptor.handler(result) as Misskey.entities.Page;
 			}
 			page.value = result;
 		}
