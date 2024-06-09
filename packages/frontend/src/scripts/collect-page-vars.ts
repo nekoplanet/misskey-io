@@ -23,7 +23,7 @@ interface BooleanPageVar {
 
 type PageVar = StringPageVar | NumberPageVar | BooleanPageVar;
 
-export function collectPageVars(content): PageVar[] {
+export function collectPageVars(content: any[]): PageVar[] {
 	const pageVars: PageVar[] = [];
 	const collect = (xs: any[]): void => {
 		for (const x of xs) {

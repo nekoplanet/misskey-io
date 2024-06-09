@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { Directive } from 'vue';
+import { Directive, DirectiveBinding } from 'vue';
 
 const mountings = new Map<Element, {
 	resize: ResizeObserver;
@@ -38,7 +38,7 @@ function calc(src: Element) {
 }
 
 export default {
-	mounted(src, binding, vn) {
+	mounted(src: Element, binding: DirectiveBinding<(w: number, h: number) => void>) {
 		const resize = new ResizeObserver((entries, observer) => {
 			calc(src);
 		});
@@ -48,7 +48,7 @@ export default {
 		calc(src);
 	},
 
-	unmounted(src, binding, vn) {
+	unmounted(src: Element, binding: DirectiveBinding<(w: number, h: number) => void>) {
 		binding.value(0, 0);
 		const info = mountings.get(src);
 		if (!info) return;

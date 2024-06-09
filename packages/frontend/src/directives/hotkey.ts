@@ -6,8 +6,13 @@
 import { Directive } from 'vue';
 import { makeHotkey } from '../scripts/hotkey.js';
 
+export interface MkHotkeyHTMLElement extends HTMLElement {
+	_hotkey_global?: boolean,
+	_keyHandler?: (event: KeyboardEvent) => void,
+}
+
 export default {
-	mounted(el, binding) {
+	mounted(el: MkHotkeyHTMLElement, binding) {
 		el._hotkey_global = binding.modifiers.global === true;
 
 		el._keyHandler = makeHotkey(binding.value);
@@ -19,7 +24,8 @@ export default {
 		}
 	},
 
-	unmounted(el) {
+	unmounted(el: MkHotkeyHTMLElement) {
+		if (el._keyHandler === undefined) return;
 		if (el._hotkey_global) {
 			document.removeEventListener('keydown', el._keyHandler);
 		} else {

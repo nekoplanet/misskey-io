@@ -7,6 +7,7 @@ import { utils, values } from '@syuilo/aiscript';
 import { v4 as uuid } from 'uuid';
 import { ref, Ref } from 'vue';
 import * as Misskey from 'misskey-js';
+import { VFn, VStr } from '@syuilo/aiscript/interpreter/value.js';
 
 export type AsUiComponentBase = {
 	id: string;
@@ -151,7 +152,7 @@ function getRootOptions(def: values.Value | undefined): Omit<AsUiRoot, 'id' | 't
 	return {
 		children: children.value.map(v => {
 			utils.assertObject(v);
-			return v.value.get('id').value;
+			return v.value.get('id')!.value;
 		}),
 	};
 }
@@ -183,7 +184,7 @@ function getContainerOptions(def: values.Value | undefined): Omit<AsUiContainer,
 	return {
 		children: children ? children.value.map(v => {
 			utils.assertObject(v);
-			return v.value.get('id').value;
+			return v.value.get('id')!.value;
 		}) : [],
 		align: align?.value,
 		fgColor: fgColor?.value,
@@ -442,7 +443,7 @@ function getFolderOptions(def: values.Value | undefined): Omit<AsUiFolder, 'id' 
 	return {
 		children: children ? children.value.map(v => {
 			utils.assertObject(v);
-			return v.value.get('id').value;
+			return v.value.get('id')!.value;
 		}) : [],
 		title: title?.value ?? '',
 		opened: opened?.value ?? true,
@@ -514,7 +515,7 @@ export function registerAsUiLib(components: Ref<AsUiComponent>[], done: (root: R
 			id: _id,
 		});
 		components.push(component);
-		const instance = values.OBJ(new Map([
+		const instance = values.OBJ(new Map<string, VStr | VFn>([
 			['id', values.STR(_id)],
 			['update', values.FN_NATIVE(([def], opts) => {
 				utils.assertObject(def);
@@ -558,7 +559,7 @@ export function registerAsUiLib(components: Ref<AsUiComponent>[], done: (root: R
 
 			rootComponent.value.children = children.value.map(v => {
 				utils.assertObject(v);
-				return v.value.get('id').value;
+				return v.value.get('id')!.value;
 			});
 		}),
 

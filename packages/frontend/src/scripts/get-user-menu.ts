@@ -204,21 +204,21 @@ export function getUserMenu(user: Misskey.entities.UserDetailed, router: IRouter
 		children: async () => {
 			const lists = await userListsCache.fetch();
 			return lists.map(list => {
-				const isListed = ref(list.userIds.includes(user.id));
+				const isListed = ref(list.userIds?.includes(user.id));
 				cleanups.push(watch(isListed, () => {
 					if (isListed.value) {
 						os.apiWithDialog('users/lists/push', {
 							listId: list.id,
 							userId: user.id,
 						}).then(() => {
-							list.userIds.push(user.id);
+							list.userIds!.push(user.id);
 						});
 					} else {
 						os.apiWithDialog('users/lists/pull', {
 							listId: list.id,
 							userId: user.id,
 						}).then(() => {
-							list.userIds.splice(list.userIds.indexOf(user.id), 1);
+							list.userIds!.splice(list.userIds!.indexOf(user.id), 1);
 						});
 					}
 				}));

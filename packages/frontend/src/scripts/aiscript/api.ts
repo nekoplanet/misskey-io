@@ -59,7 +59,7 @@ export function createAiScriptEnv(opts) {
 			}
 			const actualToken: string|null = token?.value ?? opts.token ?? null;
 			if (!rateLimiter.hit(ep.value)) return values.ERROR('rate_limited', values.NULL);
-			return misskeyApi(ep.value, utils.valToJs(param), actualToken).then(res => {
+			return misskeyApi(ep.value, utils.valToJs(param!), actualToken).then(res => {
 				return utils.jsToVal(res);
 			}, err => {
 				return values.ERROR('request_failed', utils.jsToVal(err));
@@ -67,12 +67,12 @@ export function createAiScriptEnv(opts) {
 		}),
 		'Mk:save': values.FN_NATIVE(([key, value]) => {
 			utils.assertString(key);
-			miLocalStorage.setItem(`aiscript:${opts.storageKey}:${key.value}`, JSON.stringify(utils.valToJs(value)));
+			miLocalStorage.setItem(`aiscript:${opts.storageKey}:${key.value}`, JSON.stringify(utils.valToJs(value!)));
 			return values.NULL;
 		}),
 		'Mk:load': values.FN_NATIVE(([key]) => {
 			utils.assertString(key);
-			return utils.jsToVal(JSON.parse(miLocalStorage.getItem(`aiscript:${opts.storageKey}:${key.value}`)));
+			return utils.jsToVal(JSON.parse(miLocalStorage.getItem(`aiscript:${opts.storageKey}:${key.value}`) as string));
 		}),
 		'Mk:url': values.FN_NATIVE(() => {
 			return values.STR(window.location.href);

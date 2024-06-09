@@ -21,6 +21,7 @@ import { MenuItem } from '@/types/menu.js';
 import MkRippleEffect from '@/components/MkRippleEffect.vue';
 import { isSupportShare } from '@/scripts/navigator.js';
 
+
 export async function getNoteClipMenu(props: {
 	note: Misskey.entities.Note;
 	isDeleted: Ref<boolean>;
@@ -37,7 +38,7 @@ export async function getNoteClipMenu(props: {
 	const isRenote = (
 		props.note.renote != null &&
 		props.note.text == null &&
-		props.note.fileIds.length === 0 &&
+		props.note.fileIds?.length === 0 &&
 		props.note.poll == null
 	);
 
@@ -100,12 +101,14 @@ export async function getNoteClipMenu(props: {
 				name: {
 					type: 'string',
 					label: i18n.ts.name,
+					default: null,
 				},
 				description: {
 					type: 'string',
 					required: false,
 					multiline: true,
 					label: i18n.ts.description,
+					default: null,
 				},
 				isPublic: {
 					type: 'boolean',
@@ -165,7 +168,7 @@ export function getNoteMenu(props: {
 	const isRenote = (
 		props.note.renote != null &&
 		props.note.text == null &&
-		props.note.fileIds.length === 0 &&
+		props.note.fileIds?.length === 0 &&
 		props.note.poll == null
 	);
 
@@ -246,7 +249,7 @@ export function getNoteMenu(props: {
 	}
 
 	async function unclip(): Promise<void> {
-		os.apiWithDialog('clips/remove-note', { clipId: props.currentClip.id, noteId: appearNote.id });
+		os.apiWithDialog('clips/remove-note', { clipId: props.currentClip!.id, noteId: appearNote.id });
 		props.isDeleted.value = true;
 	}
 
@@ -256,6 +259,7 @@ export function getNoteMenu(props: {
 		});
 
 		if (canceled) return;
+		if (days === null) return;
 
 		os.apiWithDialog('admin/promo/create', {
 			noteId: appearNote.id,
@@ -265,8 +269,8 @@ export function getNoteMenu(props: {
 
 	function share(): void {
 		navigator.share({
-			title: i18n.tsx.noteOf({ user: appearNote.user.name }),
-			text: appearNote.text,
+			title: i18n.tsx.noteOf({ user: appearNote.user.name as string }),
+			text: appearNote.text as string,
 			url: `${url}/notes/${appearNote.id}`,
 		});
 	}
@@ -309,7 +313,7 @@ export function getNoteMenu(props: {
 				text: i18n.ts.copyContent,
 				action: copyContent,
 			}, getCopyNoteLinkMenu(appearNote, i18n.ts.copyLink)
-			, (appearNote.url || appearNote.uri) ? {
+			, (appearNote.url ?? appearNote.uri) ? {
 				icon: 'ti ti-external-link',
 				text: i18n.ts.showOnRemote,
 				action: () => {
@@ -337,7 +341,7 @@ export function getNoteMenu(props: {
 				action: () => toggleFavorite(true),
 			}),
 			{
-				type: 'parent' as const,
+				type: 'parent',
 				icon: 'ti ti-paperclip',
 				text: i18n.ts.clip,
 				children: () => getNoteClipMenu(props),
@@ -361,7 +365,7 @@ export function getNoteMenu(props: {
 				action: () => togglePin(true),
 			} : undefined,
 			{
-				type: 'parent' as const,
+				type: 'parent',
 				icon: 'ti ti-user',
 				text: i18n.ts.user,
 				children: async () => {
@@ -390,7 +394,7 @@ export function getNoteMenu(props: {
 			...(appearNote.channel && (appearNote.channel.userId === $i.id || $i.isModerator || $i.isAdmin) ? [
 				{ type: 'divider' },
 				{
-					type: 'parent' as const,
+					type: 'parent',
 					icon: 'ti ti-device-tv',
 					text: i18n.ts.channel,
 					children: async () => {
@@ -510,7 +514,7 @@ export function getRenoteMenu(props: {
 	const isRenote = (
 		props.note.renote != null &&
 		props.note.text == null &&
-		props.note.fileIds.length === 0 &&
+		props.note.fileIds?.length === 0 &&
 		props.note.poll == null
 	);
 

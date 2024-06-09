@@ -8,7 +8,7 @@ const extractDomain = /^(https?:\/\/|\/\/)?([^@/\s]+@)?(www\.)?([^:/\s]+)/i;
 const isRegExp = /^\/(.+)\/(.*)$/;
 
 export async function warningExternalWebsite(ev: MouseEvent, url: string) {
-	const domain = extractDomain.exec(url)?.[4];
+	const domain = extractDomain.exec(url)?.[4] ?? '';
 	const self = !domain || url.startsWith(local);
 	const isWellKnownWebsite = self || instance.wellKnownWebsites.some(expression => {
 		const r = isRegExp.exec(expression);

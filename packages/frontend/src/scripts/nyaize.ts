@@ -9,7 +9,7 @@ let enRegex3: RegExp;
 let koRegex1: RegExp;
 let koRegex2: RegExp;
 let koRegex3: RegExp;
-let fallback: boolean = true;
+let fallback = true;
 
 try {
 	enRegex1 = new RegExp('(?<=n)a', 'gi');
@@ -38,7 +38,7 @@ function convertNormal(text: string): string {
 		.replace(enRegex3, x => x === 'ONE' ? 'NYAN' : 'nyan')
 		// ko-KR
 		.replace(koRegex1, match => String.fromCharCode(
-			match.charCodeAt(0)! + '냐'.charCodeAt(0) - '나'.charCodeAt(0),
+			match.charCodeAt(0) + '냐'.charCodeAt(0) - '나'.charCodeAt(0),
 		))
 		.replace(koRegex2, '다냥')
 		.replace(koRegex3, '냥');
@@ -54,7 +54,7 @@ function convertFallback(text: string): string {
 		.replace(enRegex3, x => x === 'EVERYONE' ? 'EVERYNYAN' : 'everynyan')
 		// ko-KR
 		.replace(koRegex1, match => String.fromCharCode(
-			match.charCodeAt(0)! + '냐'.charCodeAt(0) - '나'.charCodeAt(0),
+			match.charCodeAt(0) + '냐'.charCodeAt(0) - '나'.charCodeAt(0),
 		))
 		.replace(koRegex2, '다냥').replaceAll('다 ', '다냥 ').replaceAll('다!', '다냥!').replaceAll('다?', '다냥?').replaceAll('다.', '다냥.')
 		.replace(koRegex3, '냥').replaceAll('야 ', '냥 ').replaceAll('야!', '냥!').replaceAll('야?', '냥?').replaceAll('야.', '냥.');
