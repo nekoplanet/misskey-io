@@ -51,6 +51,24 @@ SPDX-License-Identifier: AGPL-3.0-only
 					</MkTextarea>
 
 					<FormSection>
+						<template #label>{{ i18n.ts.files }}</template>
+
+						<div class="_gaps_m">
+							<MkSwitch v-model="cacheRemoteFiles">
+								<template #label>{{ i18n.ts.cacheRemoteFiles }}</template>
+								<template #caption>{{ i18n.ts.cacheRemoteFilesDescription }}{{ i18n.ts.youCanCleanRemoteFilesCache }}</template>
+							</MkSwitch>
+
+							<template v-if="cacheRemoteFiles">
+								<MkSwitch v-model="cacheRemoteSensitiveFiles">
+									<template #label>{{ i18n.ts.cacheRemoteSensitiveFiles }}</template>
+									<template #caption>{{ i18n.ts.cacheRemoteSensitiveFilesDescription }}</template>
+								</MkSwitch>
+							</template>
+						</div>
+					</FormSection>
+
+					<FormSection>
 						<template #label>ServiceWorker</template>
 
 						<div class="_gaps_m">
