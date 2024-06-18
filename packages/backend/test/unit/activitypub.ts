@@ -94,11 +94,16 @@ describe('ActivityPub', () => {
 	let resolver: MockResolver;
 
 	const metaInitial = {
+<<<<<<< HEAD
 		enableFanoutTimeline: true,
 		enableFanoutTimelineDbFallback: true,
 		perUserHomeTimelineCacheMax: 100,
 		perLocalUserUserTimelineCacheMax: 100,
 		perRemoteUserUserTimelineCacheMax: 100,
+=======
+		cacheRemoteFiles: true,
+		cacheRemoteSensitiveFiles: true,
+>>>>>>> parent of becfdc2b7 (spec(misskey-host): リモートファイルをキャッシュしない様に)
 		blockedHosts: [] as string[],
 		sensitiveWords: [] as string[],
 		prohibitedWords: [] as string[],
@@ -297,7 +302,40 @@ describe('ActivityPub', () => {
 				await createRandomRemoteUser(resolver, personService),
 				imageObject,
 			);
+<<<<<<< HEAD
 			assert.ok(driveFile && driveFile.isLink);
+=======
+			assert.ok(!driveFile.isLink);
+
+			const sensitiveImageObject: IApDocument = {
+				type: 'Document',
+				mediaType: 'image/png',
+				url: 'http://host1.test/bar.png',
+				name: '',
+				sensitive: true,
+			};
+			const sensitiveDriveFile = await imageService.createImage(
+				await createRandomRemoteUser(resolver, personService),
+				sensitiveImageObject,
+			);
+			assert.ok(!sensitiveDriveFile.isLink);
+		});
+
+		test('cacheRemoteFiles=false disables caching', async () => {
+			meta = { ...metaInitial, cacheRemoteFiles: false };
+
+			const imageObject: IApDocument = {
+				type: 'Document',
+				mediaType: 'image/png',
+				url: 'http://host1.test/foo.png',
+				name: '',
+			};
+			const driveFile = await imageService.createImage(
+				await createRandomRemoteUser(resolver, personService),
+				imageObject,
+			);
+			assert.ok(driveFile.isLink);
+>>>>>>> parent of becfdc2b7 (spec(misskey-host): リモートファイルをキャッシュしない様に)
 
 			const sensitiveImageObject: IApDocument = {
 				type: 'Document',
@@ -361,6 +399,35 @@ describe('ActivityPub', () => {
 				'https://example.org/ns#unknown': 'test test bar',
 				// undefined: 'test test baz',
 			});
+		});
+
+		test('cacheRemoteSensitiveFiles=false only affects sensitive files', async () => {
+			meta = { ...metaInitial, cacheRemoteSensitiveFiles: false };
+
+			const imageObject: IApDocument = {
+				type: 'Document',
+				mediaType: 'image/png',
+				url: 'http://host1.test/foo.png',
+				name: '',
+			};
+			const driveFile = await imageService.createImage(
+				await createRandomRemoteUser(resolver, personService),
+				imageObject,
+			);
+			assert.ok(!driveFile.isLink);
+
+			const sensitiveImageObject: IApDocument = {
+				type: 'Document',
+				mediaType: 'image/png',
+				url: 'http://host1.test/bar.png',
+				name: '',
+				sensitive: true,
+			};
+			const sensitiveDriveFile = await imageService.createImage(
+				await createRandomRemoteUser(resolver, personService),
+				sensitiveImageObject,
+			);
+			assert.ok(sensitiveDriveFile.isLink);
 		});
 	});
 });
