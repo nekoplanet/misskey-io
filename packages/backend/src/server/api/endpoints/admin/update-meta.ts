@@ -103,10 +103,28 @@ export const paramDef = {
 		swPublicKey: { type: 'string', nullable: true },
 		swPrivateKey: { type: 'string', nullable: true },
 		tosUrl: { type: 'string', nullable: true },
+<<<<<<< HEAD
 		repositoryUrl: { type: 'string', nullable: true },
 		feedbackUrl: { type: 'string', nullable: true },
 		impressumUrl: { type: 'string', nullable: true },
 		privacyPolicyUrl: { type: 'string', nullable: true },
+=======
+		repositoryUrl: { type: 'string' },
+		feedbackUrl: { type: 'string' },
+		useObjectStorage: { type: 'boolean' },
+		objectStorageBaseUrl: { type: 'string', nullable: true },
+		objectStorageBucket: { type: 'string', nullable: true },
+		objectStoragePrefix: { type: 'string', nullable: true },
+		objectStorageEndpoint: { type: 'string', nullable: true },
+		objectStorageRegion: { type: 'string', nullable: true },
+		objectStoragePort: { type: 'integer', nullable: true },
+		objectStorageAccessKey: { type: 'string', nullable: true },
+		objectStorageSecretKey: { type: 'string', nullable: true },
+		objectStorageUseSSL: { type: 'boolean' },
+		objectStorageUseProxy: { type: 'boolean' },
+		objectStorageSetPublicRead: { type: 'boolean' },
+		objectStorageS3ForcePathStyle: { type: 'boolean' },
+>>>>>>> parent of c27e3bd72 (spec(misskey-host): オブジェクトストレージを設定ファイルで管理する様に)
 		enableIpLogging: { type: 'boolean' },
 		enableActiveEmailValidation: { type: 'boolean' },
 		enableVerifymailApi: { type: 'boolean' },
@@ -445,12 +463,65 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				set.feedbackUrl = ps.feedbackUrl;
 			}
 
+<<<<<<< HEAD
 			if (ps.impressumUrl !== undefined) {
 				set.impressumUrl = ps.impressumUrl;
 			}
 
 			if (ps.privacyPolicyUrl !== undefined) {
 				set.privacyPolicyUrl = ps.privacyPolicyUrl;
+=======
+			if (ps.useObjectStorage !== undefined) {
+				set.useObjectStorage = ps.useObjectStorage;
+			}
+
+			if (ps.objectStorageBaseUrl !== undefined) {
+				set.objectStorageBaseUrl = ps.objectStorageBaseUrl;
+			}
+
+			if (ps.objectStorageBucket !== undefined) {
+				set.objectStorageBucket = ps.objectStorageBucket;
+			}
+
+			if (ps.objectStoragePrefix !== undefined) {
+				set.objectStoragePrefix = ps.objectStoragePrefix;
+			}
+
+			if (ps.objectStorageEndpoint !== undefined) {
+				set.objectStorageEndpoint = ps.objectStorageEndpoint;
+			}
+
+			if (ps.objectStorageRegion !== undefined) {
+				set.objectStorageRegion = ps.objectStorageRegion;
+			}
+
+			if (ps.objectStoragePort !== undefined) {
+				set.objectStoragePort = ps.objectStoragePort;
+			}
+
+			if (ps.objectStorageAccessKey !== undefined) {
+				set.objectStorageAccessKey = ps.objectStorageAccessKey;
+			}
+
+			if (ps.objectStorageSecretKey !== undefined) {
+				set.objectStorageSecretKey = ps.objectStorageSecretKey;
+			}
+
+			if (ps.objectStorageUseSSL !== undefined) {
+				set.objectStorageUseSSL = ps.objectStorageUseSSL;
+			}
+
+			if (ps.objectStorageUseProxy !== undefined) {
+				set.objectStorageUseProxy = ps.objectStorageUseProxy;
+			}
+
+			if (ps.objectStorageSetPublicRead !== undefined) {
+				set.objectStorageSetPublicRead = ps.objectStorageSetPublicRead;
+			}
+
+			if (ps.objectStorageS3ForcePathStyle !== undefined) {
+				set.objectStorageS3ForcePathStyle = ps.objectStorageS3ForcePathStyle;
+>>>>>>> parent of c27e3bd72 (spec(misskey-host): オブジェクトストレージを設定ファイルで管理する様に)
 			}
 
 			if (ps.deeplAuthKey !== undefined) {

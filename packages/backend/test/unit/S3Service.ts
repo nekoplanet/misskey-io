@@ -16,7 +16,12 @@ import {
 import { mockClient } from 'aws-sdk-client-mock';
 import { GlobalModule } from '@/GlobalModule.js';
 import { CoreModule } from '@/core/CoreModule.js';
+<<<<<<< HEAD
 import { S3Service } from '@/core/S3Service.js';
+=======
+import { S3Service } from '@/core/S3Service';
+import { Meta } from '@/models';
+>>>>>>> parent of c27e3bd72 (spec(misskey-host): オブジェクトストレージを設定ファイルで管理する様に)
 import type { TestingModule } from '@nestjs/testing';
 
 describe('S3Service', () => {
@@ -45,7 +50,7 @@ describe('S3Service', () => {
 		test('upload a file', async () => {
 			s3Mock.on(PutObjectCommand).resolves({});
 
-			await s3Service.upload({
+			await s3Service.upload({ objectStorageRegion: 'us-east-1' } as Meta, {
 				Bucket: 'fake',
 				Key: 'fake',
 				Body: 'x',
@@ -57,7 +62,7 @@ describe('S3Service', () => {
 			s3Mock.on(UploadPartCommand).resolves({ ETag: '1' });
 			s3Mock.on(CompleteMultipartUploadCommand).resolves({ Bucket: 'fake', Key: 'fake' });
 
-			await s3Service.upload({
+			await s3Service.upload({} as Meta, {
 				Bucket: 'fake',
 				Key: 'fake',
 				Body: 'x'.repeat(8 * 1024 * 1024 + 1), // デフォルトpartSizeにしている 8 * 1024 * 1024 を越えるサイズ
@@ -67,7 +72,7 @@ describe('S3Service', () => {
 		test('upload a file error', async () => {
 			s3Mock.on(PutObjectCommand).rejects({ name: 'Fake Error' });
 
-			await expect(s3Service.upload({
+			await expect(s3Service.upload({ objectStorageRegion: 'us-east-1' } as Meta, {
 				Bucket: 'fake',
 				Key: 'fake',
 				Body: 'x',
@@ -77,7 +82,7 @@ describe('S3Service', () => {
 		test('upload a large file error', async () => {
 			s3Mock.on(UploadPartCommand).rejects();
 
-			await expect(s3Service.upload({
+			await expect(s3Service.upload({} as Meta, {
 				Bucket: 'fake',
 				Key: 'fake',
 				Body: 'x'.repeat(8 * 1024 * 1024 + 1), // デフォルトpartSizeにしている 8 * 1024 * 1024 を越えるサイズ
