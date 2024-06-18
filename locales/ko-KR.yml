@@ -2192,6 +2192,7 @@ _postForm:
     d: "말하고 싶은 게 있나요?"
     e: "여기에 적어 주세요"
     f: "작성해주시길 기다리고 있어요..."
+  guidelineInfo: "[NSFW 가이드라인]({nsfwGuideUrl})을 꼭 읽어보신 후 이용을 부탁드립니다."  
 _profile:
   name: "이름"
   username: "유저명"
