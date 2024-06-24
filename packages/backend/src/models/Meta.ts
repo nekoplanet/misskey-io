@@ -157,6 +157,16 @@ export class MiMeta {
 	})
 	public infoImageUrl: string | null;
 
+	@Column('boolean', {
+		default: true,
+	})
+	public cacheRemoteFiles: boolean;
+
+	@Column('boolean', {
+		default: true,
+	})
+	public cacheRemoteSensitiveFiles: boolean;
+
 	@Column({
 		...id(),
 		nullable: true,
