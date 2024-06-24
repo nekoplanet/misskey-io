@@ -78,47 +78,48 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
+import { computed, ref } from 'vue';
+
 import XHeader from './_header_.vue';
 import MkSwitch from '@/components/MkSwitch.vue';
 import MkInput from '@/components/MkInput.vue';
 import FormSuspense from '@/components/form/suspense.vue';
 import FormSplit from '@/components/form/split.vue';
-import * as os from '@/os';
-import { fetchInstance } from '@/instance';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import * as os from '@/os.js';
+import { fetchInstance } from '@/instance.js';
+import { i18n } from '@/i18n.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 import MkButton from '@/components/MkButton.vue';
 
-let useObjectStorage: boolean = $ref(false);
-let objectStorageBaseUrl: string | null = $ref(null);
-let objectStorageBucket: string | null = $ref(null);
-let objectStoragePrefix: string | null = $ref(null);
-let objectStorageEndpoint: string | null = $ref(null);
-let objectStorageRegion: string | null = $ref(null);
-let objectStoragePort: number | null = $ref(null);
-let objectStorageAccessKey: string | null = $ref(null);
-let objectStorageSecretKey: string | null = $ref(null);
-let objectStorageUseSSL: boolean = $ref(false);
-let objectStorageUseProxy: boolean = $ref(false);
-let objectStorageSetPublicRead: boolean = $ref(false);
-let objectStorageS3ForcePathStyle: boolean = $ref(true);
+let useObjectStorage: boolean = ref(false);
+let objectStorageBaseUrl: string | null = ref(null);
+let objectStorageBucket: string | null = ref(null);
+let objectStoragePrefix: string | null = ref(null);
+let objectStorageEndpoint: string | null = ref(null);
+let objectStorageRegion: string | null = ref(null);
+let objectStoragePort: number | null = ref(null);
+let objectStorageAccessKey: string | null = ref(null);
+let objectStorageSecretKey: string | null = ref(null);
+let objectStorageUseSSL: boolean = ref(false);
+let objectStorageUseProxy: boolean = ref(false);
+let objectStorageSetPublicRead: boolean = ref(false);
+let objectStorageS3ForcePathStyle: boolean = ref(true);
 
 async function init() {
 	const meta = await os.api('admin/meta');
-	useObjectStorage = meta.useObjectStorage;
-	objectStorageBaseUrl = meta.objectStorageBaseUrl;
-	objectStorageBucket = meta.objectStorageBucket;
-	objectStoragePrefix = meta.objectStoragePrefix;
-	objectStorageEndpoint = meta.objectStorageEndpoint;
-	objectStorageRegion = meta.objectStorageRegion;
-	objectStoragePort = meta.objectStoragePort;
-	objectStorageAccessKey = meta.objectStorageAccessKey;
-	objectStorageSecretKey = meta.objectStorageSecretKey;
-	objectStorageUseSSL = meta.objectStorageUseSSL;
-	objectStorageUseProxy = meta.objectStorageUseProxy;
-	objectStorageSetPublicRead = meta.objectStorageSetPublicRead;
-	objectStorageS3ForcePathStyle = meta.objectStorageS3ForcePathStyle;
+	useObjectStorage.value = meta.useObjectStorage;
+	objectStorageBaseUrl.value = meta.objectStorageBaseUrl;
+	objectStorageBucket.value = meta.objectStorageBucket;
+	objectStoragePrefix.value = meta.objectStoragePrefix;
+	objectStorageEndpoint.value = meta.objectStorageEndpoint;
+	objectStorageRegion.value = meta.objectStorageRegion;
+	objectStoragePort.value = meta.objectStoragePort;
+	objectStorageAccessKey.value = meta.objectStorageAccessKey;
+	objectStorageSecretKey.value = meta.objectStorageSecretKey;
+	objectStorageUseSSL.value = meta.objectStorageUseSSL;
+	objectStorageUseProxy.value = meta.objectStorageUseProxy;
+	objectStorageSetPublicRead.value = meta.objectStorageSetPublicRead;
+	objectStorageS3ForcePathStyle.value = meta.objectStorageS3ForcePathStyle;
 }
 
 function save() {
@@ -141,7 +142,7 @@ function save() {
 	});
 }
 
-const headerTabs = $computed(() => []);
+const headerTabs = computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.objectStorage,
