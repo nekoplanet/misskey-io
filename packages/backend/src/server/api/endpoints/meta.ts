@@ -120,7 +120,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 					hcaptcha: instance.enableHcaptcha,
 					recaptcha: instance.enableRecaptcha,
 					turnstile: instance.enableTurnstile,
-					objectStorage: !!config.s3,
+					objectStorage: instance.useObjectStorage,
 					serviceWorker: instance.enableServiceWorker,
 					miauth: true,
 				};
