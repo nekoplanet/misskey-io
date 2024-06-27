@@ -9,9 +9,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<MkSpacer :contentMax="700">
 		<MkHorizontalSwipe v-model:tab="tab" :tabs="headerTabs">
 			<div v-if="tab === 'featured'" key="featured">
-				<MkPagination v-slot="{items}" :pagination="featuredPagesPagination">
+				<MkPagination v-slot="{items}" :pagination="(featuredPagesPagination as any)">
 					<div class="_gaps">
-						<MkPagePreview v-for="page in items" :key="page.id" :page="page"/>
+						<MkPagePreview v-for="page in items" :key="page.id" :page="(page as any)"/>
 					</div>
 				</MkPagination>
 			</div>
@@ -20,7 +20,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<MkButton class="new" @click="create()"><i class="ti ti-plus"></i></MkButton>
 				<MkPagination v-slot="{items}" :pagination="myPagesPagination">
 					<div class="_gaps">
-						<MkPagePreview v-for="page in items" :key="page.id" :page="page"/>
+						<MkPagePreview v-for="page in items" :key="page.id" :page="(page as any)"/>
 					</div>
 				</MkPagination>
 			</div>

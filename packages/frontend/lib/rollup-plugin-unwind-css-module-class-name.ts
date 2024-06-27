@@ -382,7 +382,7 @@ export function unwindCssModuleClassName(ast: estree.Node): void {
 						if (childNode.name !== ident) return;
 						this.replace({
 							type: 'Identifier',
-							name: node.declarations[0].id.name,
+							name: (node.declarations[0].id as estree.Identifier).name,
 						});
 					},
 				});

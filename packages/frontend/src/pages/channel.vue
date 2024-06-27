@@ -121,12 +121,12 @@ watch(() => props.channelId, async () => {
 	channel.value = await misskeyApi('channels/show', {
 		channelId: props.channelId,
 	});
-	favorited.value = channel.value.isFavorited ?? false;
-	if (favorited.value || channel.value.isFollowing) {
+	favorited.value = channel.value?.isFavorited ?? false;
+	if (favorited.value || channel.value?.isFollowing) {
 		tab.value = 'timeline';
 	}
 
-	if ((favorited.value || channel.value.isFollowing) && channel.value.lastNotedAt) {
+	if ((favorited.value || channel.value?.isFollowing) && channel.value?.lastNotedAt) {
 		const lastReadedAt: number = miLocalStorage.getItemAsJson(`channelLastReadedAt:${channel.value.id}`) ?? 0;
 		const lastNotedAt = Date.parse(channel.value.lastNotedAt);
 

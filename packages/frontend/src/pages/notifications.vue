@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<MkSpacer :contentMax="800">
 		<MkHorizontalSwipe v-model:tab="tab" :tabs="headerTabs">
 			<div v-if="tab === 'all'" key="all">
-				<XNotifications :class="$style.notifications" :excludeTypes="excludeTypes"/>
+				<XNotifications :class="$style.notifications" :excludeTypes="(excludeTypes ?? undefined)"/>
 			</div>
 			<div v-else-if="tab === 'mentions'" key="mention">
 				<MkNotes :pagination="mentionsPagination"/>
@@ -34,7 +34,7 @@ import { notificationTypes } from '@/const.js';
 
 const tab = ref('all');
 const includeTypes = ref<string[] | null>(null);
-const excludeTypes = computed(() => includeTypes.value ? notificationTypes.filter(t => !includeTypes.value.includes(t)) : null);
+const excludeTypes = computed(() => includeTypes.value ? notificationTypes.filter(t => !includeTypes.value?.includes(t)) : null);
 
 const mentionsPagination = {
 	endpoint: 'notes/mentions' as const,

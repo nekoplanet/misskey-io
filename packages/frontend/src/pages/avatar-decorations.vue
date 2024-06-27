@@ -50,7 +50,7 @@ const avatarDecorations = ref<Misskey.entities.AdminAvatarDecorationsListRespons
 function add() {
 	avatarDecorations.value.unshift({
 		_id: Math.random().toString(36),
-		id: null,
+		id: '',
 		name: '',
 		description: '',
 		url: '',

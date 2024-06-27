@@ -149,7 +149,7 @@ function rename() {
 	}).then(({ canceled, result: name }) => {
 		if (canceled) return;
 		os.apiWithDialog('drive/files/update', {
-			fileId: file.value.id,
+			fileId: file.value?.id as string,
 			name: name,
 		}).then(async () => {
 			await fetch();
@@ -166,7 +166,7 @@ function describe() {
 	}, {
 		done: caption => {
 			os.apiWithDialog('drive/files/update', {
-				fileId: file.value.id,
+				fileId: file.value?.id as string,
 				comment: caption.length === 0 ? null : caption,
 			}).then(async () => {
 				await fetch();

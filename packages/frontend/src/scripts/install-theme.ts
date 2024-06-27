@@ -8,7 +8,7 @@ import { addTheme, getThemes } from '@/theme-store.js';
 import { Theme, applyTheme, validateTheme } from '@/scripts/theme.js';
 
 export function parseThemeCode(code: string): Theme {
-	let theme;
+	let theme: Theme;
 
 	try {
 		theme = JSON5.parse(code);

@@ -71,7 +71,7 @@ const valueForEditor = ref<string | null>(null);
 function fetchValue() {
 	misskeyApi('i/registry/get-detail', {
 		scope: scope.value,
-		key: key.value,
+		key: key.value as string,
 		domain: props.domain === '@' ? null : props.domain,
 	}).then(res => {
 		value.value = res;
@@ -81,7 +81,7 @@ function fetchValue() {
 
 async function save() {
 	try {
-		JSON5.parse(valueForEditor.value);
+		JSON5.parse(valueForEditor.value as string);
 	} catch (err) {
 		os.alert({
 			type: 'error',
@@ -96,8 +96,8 @@ async function save() {
 		if (canceled) return;
 		os.apiWithDialog('i/registry/set', {
 			scope: scope.value,
-			key: key.value,
-			value: JSON5.parse(valueForEditor.value),
+			key: key.value as string,
+			value: JSON5.parse(valueForEditor.value as string),
 			domain: props.domain === '@' ? null : props.domain,
 		});
 	});
@@ -111,7 +111,7 @@ function del() {
 		if (canceled) return;
 		os.apiWithDialog('i/registry/remove', {
 			scope: scope.value,
-			key: key.value,
+			key: key.value as string,
 			domain: props.domain === '@' ? null : props.domain,
 		});
 	});

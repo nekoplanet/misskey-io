@@ -51,6 +51,24 @@ SPDX-License-Identifier: AGPL-3.0-only
 					</MkTextarea>
 
 					<FormSection>
+						<template #label>{{ i18n.ts.files }}</template>
+
+						<div class="_gaps_m">
+							<MkSwitch v-model="cacheRemoteFiles">
+								<template #label>{{ i18n.ts.cacheRemoteFiles }}</template>
+								<template #caption>{{ i18n.ts.cacheRemoteFilesDescription }}</template>
+							</MkSwitch>
+
+							<template v-if="cacheRemoteFiles">
+								<MkSwitch v-model="cacheRemoteSensitiveFiles">
+									<template #label>{{ i18n.ts.cacheRemoteSensitiveFiles }}</template>
+									<template #caption>{{ i18n.ts.cacheRemoteSensitiveFilesDescription }}</template>
+								</MkSwitch>
+							</template>
+						</div>
+					</FormSection>
+
+					<FormSection>
 						<template #label>ServiceWorker</template>
 
 						<div class="_gaps_m">
@@ -198,6 +216,7 @@ import { fetchInstance } from '@/instance.js';
 import { i18n } from '@/i18n.js';
 import { definePageMetadata } from '@/scripts/page-metadata.js';
 
+
 const name = ref<string | null>(null);
 const shortName = ref<string | null>(null);
 const description = ref<string | null>(null);
@@ -205,6 +224,8 @@ const maintainerName = ref<string | null>(null);
 const maintainerEmail = ref<string | null>(null);
 const impressumUrl = ref<string | null>(null);
 const pinnedUsers = ref<string>('');
+const cacheRemoteFiles = ref<boolean>(false);
+const cacheRemoteSensitiveFiles = ref<boolean>(false);
 const featuredGameChannels = ref<string>('');
 const enableServiceWorker = ref<boolean>(false);
 const swPublicKey = ref<string | null>(null);
@@ -232,6 +253,8 @@ async function init(): Promise<void> {
 	maintainerEmail.value = meta.maintainerEmail;
 	impressumUrl.value = meta.impressumUrl;
 	pinnedUsers.value = meta.pinnedUsers.join('\n');
+	cacheRemoteFiles.value = meta.cacheRemoteFiles;
+	cacheRemoteSensitiveFiles.value = meta.cacheRemoteSensitiveFiles;
 	featuredGameChannels.value = meta.featuredGameChannels.join('\n');
 	enableServiceWorker.value = meta.enableServiceWorker;
 	swPublicKey.value = meta.swPublickey;
@@ -260,6 +283,8 @@ async function save() {
 		maintainerEmail: maintainerEmail.value,
 		impressumUrl: impressumUrl.value,
 		pinnedUsers: pinnedUsers.value.split('\n'),
+		cacheRemoteFiles: cacheRemoteFiles.value,
+		cacheRemoteSensitiveFiles: cacheRemoteSensitiveFiles.value,
 		featuredGameChannels: featuredGameChannels.value.split('\n'),
 		enableServiceWorker: enableServiceWorker.value,
 		swPublicKey: swPublicKey.value,

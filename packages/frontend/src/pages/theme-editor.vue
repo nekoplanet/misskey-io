@@ -12,12 +12,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<template #label>{{ i18n.ts.backgroundColor }}</template>
 				<div class="cwepdizn-colors">
 					<div class="row">
-						<button v-for="color in bgColors.filter(x => x.kind === 'light')" :key="color.color" class="color _button" :class="{ active: theme.props.bg === color.color }" @click="setBgColor(color)">
+						<button v-for="color in bgColors.filter(x => x.kind === 'light')" :key="color.color" class="color _button" :class="{ active: theme.props?.bg === color.color }" @click="setBgColor(color)">
 							<div class="preview" :style="{ background: color.forPreview }"></div>
 						</button>
 					</div>
 					<div class="row">
-						<button v-for="color in bgColors.filter(x => x.kind === 'dark')" :key="color.color" class="color _button" :class="{ active: theme.props.bg === color.color }" @click="setBgColor(color)">
+						<button v-for="color in bgColors.filter(x => x.kind === 'dark')" :key="color.color" class="color _button" :class="{ active: theme.props?.bg === color.color }" @click="setBgColor(color)">
 							<div class="preview" :style="{ background: color.forPreview }"></div>
 						</button>
 					</div>
@@ -28,7 +28,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<template #label>{{ i18n.ts.accentColor }}</template>
 				<div class="cwepdizn-colors">
 					<div class="row">
-						<button v-for="color in accentColors" :key="color" class="color rounded _button" :class="{ active: theme.props.accent === color }" @click="setAccentColor(color)">
+						<button v-for="color in accentColors" :key="color" class="color rounded _button" :class="{ active: theme.props?.accent === color }" @click="setAccentColor(color)">
 							<div class="preview" :style="{ background: color }"></div>
 						</button>
 					</div>
@@ -39,7 +39,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<template #label>{{ i18n.ts.textColor }}</template>
 				<div class="cwepdizn-colors">
 					<div class="row">
-						<button v-for="color in fgColors" :key="color" class="color char _button" :class="{ active: (theme.props.fg === color.forLight) || (theme.props.fg === color.forDark) }" @click="setFgColor(color)">
+						<button v-for="color in fgColors" :key="color.color" class="color char _button" :class="{ active: (theme.props?.fg === color.forLight) || (theme.props?.fg === color.forDark) }" @click="setFgColor(color)">
 							<div class="preview" :style="{ color: color.forPreview ? color.forPreview : theme.base === 'light' ? '#5f5f5f' : '#dadada' }">A</div>
 						</button>
 					</div>
@@ -142,27 +142,27 @@ function showPreview() {
 function setBgColor(color: typeof bgColors[number]) {
 	if (theme.value.base !== color.kind) {
 		const base = color.kind === 'dark' ? darkTheme : lightTheme;
-		for (const prop of Object.keys(base.props)) {
+		for (const prop of Object.keys(base.props!)) {
 			if (prop === 'accent') continue;
 			if (prop === 'fg') continue;
-			theme.value.props[prop] = base.props[prop];
+			theme.value.props![prop] = base.props![prop];
 		}
 	}
 	theme.value.base = color.kind;
-	theme.value.props.bg = color.color;
+	theme.value.props!.bg = color.color;
 
-	if (theme.value.props.fg) {
-		const matchedFgColor = fgColors.find(x => [tinycolor(x.forLight).toRgbString(), tinycolor(x.forDark).toRgbString()].includes(tinycolor(theme.value.props.fg).toRgbString()));
+	if (theme.value.props?.fg) {
+		const matchedFgColor = fgColors.find(x => [tinycolor(x.forLight).toRgbString(), tinycolor(x.forDark).toRgbString()].includes(tinycolor(theme.value.props?.fg).toRgbString()));
 		if (matchedFgColor) setFgColor(matchedFgColor);
 	}
 }
 
 function setAccentColor(color) {
-	theme.value.props.accent = color;
+	theme.value.props!.accent = color;
 }
 
 function setFgColor(color) {
-	theme.value.props.fg = theme.value.base === 'light' ? color.forLight : color.forDark;
+	theme.value.props!.fg = theme.value.base === 'light' ? color.forLight : color.forDark;
 }
 
 function apply() {
@@ -175,7 +175,7 @@ function applyThemeCode() {
 	let parsed;
 
 	try {
-		parsed = JSON5.parse(themeCode.value);
+		parsed = JSON5.parse(themeCode.value as string);
 	} catch (err) {
 		os.alert({
 			type: 'error',
@@ -195,8 +195,8 @@ async function saveAs() {
 	if (canceled) return;
 
 	theme.value.id = uuid();
-	theme.value.name = name;
-	theme.value.author = `@${$i.username}@${toUnicode(host)}`;
+	theme.value.name = name ?? '';
+	theme.value.author = `@${$i!.username}@${toUnicode(host)}`;
 	if (description.value) theme.value.desc = description.value;
 	await addTheme(theme.value);
 	applyTheme(theme.value);

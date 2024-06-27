@@ -114,11 +114,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 						<FormSplit>
 							<MkKeyValue>
 								<template #key>{{ i18n.ts.users }}</template>
-								<template #value>{{ number(stats.originalUsersCount) }}</template>
+								<template #value>{{ number(stats!.originalUsersCount) }}</template>
 							</MkKeyValue>
 							<MkKeyValue>
 								<template #key>{{ i18n.ts.notes }}</template>
-								<template #value>{{ number(stats.originalNotesCount) }}</template>
+								<template #value>{{ number(stats!.originalNotesCount) }}</template>
 							</MkKeyValue>
 						</FormSplit>
 					</FormSection>

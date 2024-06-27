@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 	<MkSpacer :contentMax="500">
 		<div class="_gaps">
-			<MkAd v-for="ad in instance.ads" :key="ad.id" :specify="ad"/>
+			<MkAd v-for="ad in instance.ads" :key="ad.id" :specify="ad" :prefer="[]"/>
 		</div>
 	</MkSpacer>
 </MkStickyContainer>

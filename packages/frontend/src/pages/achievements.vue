@@ -7,13 +7,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 <MkStickyContainer>
 	<template #header><MkPageHeader/></template>
 	<MkSpacer :contentMax="1200">
-		<MkAchievements :user="$i"/>
+		<MkAchievements :user="($i as Misskey.entities.UserDetailed)"/>
 	</MkSpacer>
 </MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
 import { onActivated, onDeactivated, onMounted, onUnmounted } from 'vue';
+import * as Misskey from 'misskey-js';
 import MkAchievements from '@/components/MkAchievements.vue';
 import { i18n } from '@/i18n.js';
 import { definePageMetadata } from '@/scripts/page-metadata.js';

@@ -68,11 +68,13 @@ async function createKey() {
 		key: {
 			type: 'string',
 			label: i18n.ts._registry.key,
+			default: '',
 		},
 		value: {
 			type: 'string',
 			multiline: true,
 			label: i18n.ts.value,
+			default: '',
 		},
 		scope: {
 			type: 'string',
