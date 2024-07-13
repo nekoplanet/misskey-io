@@ -4023,7 +4023,6 @@ export type components = {
           /** Format: date-time */
           lastUsed: string;
         }[];
-			token?: string;
     };
     UserDetailedNotMe: components['schemas']['UserLite'] & components['schemas']['UserDetailedNotMeOnly'];
     MeDetailed: components['schemas']['UserLite'] & components['schemas']['UserDetailedNotMeOnly'] & components['schemas']['MeDetailedOnly'];
@@ -4040,8 +4039,6 @@ export type components = {
       name: string;
       userIds?: string[];
       isPublic: boolean;
-			isLiked?: boolean;
-			likedCount?: number;
     };
     UserListMembership: {
       /**
@@ -5164,6 +5161,8 @@ export type operations = {
       200: {
         content: {
           'application/json': {
+            cacheRemoteFiles: boolean;
+            cacheRemoteSensitiveFiles: boolean;
             emailRequiredForSignup: boolean;
             enableHcaptcha: boolean;
             hcaptchaSiteKey: string | null;
@@ -5213,6 +5212,18 @@ export type operations = {
             smtpUser: string | null;
             smtpPass: string | null;
             swPrivateKey: string | null;
+            useObjectStorage?: boolean;
+            objectStorageBaseUrl?: string | null;
+            objectStorageBucket?: string | null;
+            objectStoragePrefix?: string | null;
+            objectStorageEndpoint?: string | null;
+            objectStorageRegion?: string | null;
+            objectStoragePort?: number | null;
+            objectStorageAccessKey?: string | null;
+            objectStorageSecretKey?: string | null;
+            objectStorageUseSSL?: boolean;
+            objectStorageUseProxy?: boolean;
+            objectStorageSetPublicRead?: boolean;
             enableIpLogging: boolean;
             enableActiveEmailValidation: boolean;
             enableVerifymailApi: boolean;
@@ -6603,11 +6614,6 @@ export type operations = {
                * @example xxxxxxxxxx
                */
               id: string;
-							/**
-							 * Format: id
-							 * @example
-							 */
-							_id?: string;
               /** Format: date-time */
               createdAt: string;
               /** Format: date-time */
@@ -9776,6 +9782,8 @@ export type operations = {
           description?: string | null;
           defaultLightTheme?: string | null;
           defaultDarkTheme?: string | null;
+          cacheRemoteFiles?: boolean;
+          cacheRemoteSensitiveFiles?: boolean;
           emailRequiredForSignup?: boolean;
           enableHcaptcha?: boolean;
           hcaptchaSiteKey?: string | null;
@@ -9818,6 +9826,19 @@ export type operations = {
           feedbackUrl?: string | null;
           impressumUrl?: string | null;
           privacyPolicyUrl?: string | null;
+          useObjectStorage?: boolean;
+          objectStorageBaseUrl?: string | null;
+          objectStorageBucket?: string | null;
+          objectStoragePrefix?: string | null;
+          objectStorageEndpoint?: string | null;
+          objectStorageRegion?: string | null;
+          objectStoragePort?: number | null;
+          objectStorageAccessKey?: string | null;
+          objectStorageSecretKey?: string | null;
+          objectStorageUseSSL?: boolean;
+          objectStorageUseProxy?: boolean;
+          objectStorageSetPublicRead?: boolean;
+          objectStorageS3ForcePathStyle?: boolean;
           enableIpLogging?: boolean;
           enableActiveEmailValidation?: boolean;
           enableVerifymailApi?: boolean;
