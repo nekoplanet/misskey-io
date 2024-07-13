@@ -180,6 +180,10 @@ export const packedRolePoliciesSchema = {
 			type: 'boolean',
 			optional: false, nullable: false,
 		},
+		canEditNote: {
+			type: 'boolean',
+			optional: false, nullable: false,
+		},
 		canInitiateConversation: {
 			type: 'boolean',
 			optional: false, nullable: false,

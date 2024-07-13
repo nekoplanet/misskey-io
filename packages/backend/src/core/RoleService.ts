@@ -36,6 +36,7 @@ export type RolePolicies = {
 	gtlAvailable: boolean;
 	ltlAvailable: boolean;
 	canPublicNote: boolean;
+	canEditNote: boolean;
 	canInitiateConversation: boolean;
 	canCreateContent: boolean;
 	canUpdateContent: boolean;
@@ -74,6 +75,7 @@ export const DEFAULT_POLICIES: RolePolicies = {
 	gtlAvailable: true,
 	ltlAvailable: true,
 	canPublicNote: true,
+	canEditNote: true,
 	canInitiateConversation: true,
 	canCreateContent: true,
 	canUpdateContent: true,
@@ -385,6 +387,7 @@ export class RoleService implements OnApplicationShutdown, OnModuleInit {
 			gtlAvailable: calc('gtlAvailable', vs => vs.some(v => v === true)),
 			ltlAvailable: calc('ltlAvailable', vs => vs.some(v => v === true)),
 			canPublicNote: calc('canPublicNote', vs => vs.some(v => v === true)),
+			canEditNote: calc('canEditNote', vs => vs.some(v => v === true)),
 			canInitiateConversation: calc('canInitiateConversation', vs => vs.some(v => v === true)),
 			canCreateContent: calc('canCreateContent', vs => vs.some(v => v === true)),
 			canUpdateContent: calc('canUpdateContent', vs => vs.some(v => v === true)),

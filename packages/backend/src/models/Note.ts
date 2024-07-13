@@ -26,6 +26,19 @@ export class MiNote {
 	})
 	public createdAt: Date;
 
+	@Column('timestamp with time zone', {
+		comment: 'The last updated date of the Note.',
+		default: null,
+	})
+	public updatedAt: Date | null;
+
+	@Column('timestamp with time zone', {
+		comment: 'The history of when the note is updated',
+		array: true,
+		default: null,
+	})
+	public updatedAtHistory: Date[] | null;
+
 	@Index()
 	@Column({
 		...id(),
@@ -65,6 +78,12 @@ export class MiNote {
 		nullable: true,
 	})
 	public text: string | null;
+
+	@Column('text', {
+		array: true,
+		default: '{}',
+	})
+	public noteEditHistory: string[];
 
 	@Column('varchar', {
 		length: 256, nullable: true,
