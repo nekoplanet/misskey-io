@@ -8,3 +8,9 @@
 
 ### Backend
 - Revert: s3 설정을 설정 파일로 옮김 (취소됨: MisskeyIO#104)
+
+### misskey-js
+- Revert: s3 설정을 설정 파일로 옮김 (취소됨: MisskeyIO#104)
+
+### develop
+- QoL: `misskey-js`의 갱신과 이를 적용한 전체 빌드의 자동화 스크립트 추가
