@@ -10,6 +10,9 @@
 
 ### Backend
 
+### Frontend
+- Feat: "다른 계정 추가" 버튼 아래에 "새 계정 추가" 버튼이 살아 있어서 지웠습니다
+
 ### misskey-js
 
 ### develop
