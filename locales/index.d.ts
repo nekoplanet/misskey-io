@@ -2633,6 +2633,10 @@ export interface Locale extends ILocale {
      */
     "edit": string;
     /**
+     * ノートを修正しますか？連合するサーバーによっては、修正後のノートが正常に表示されない場合があります。
+     */
+    "editConfirm": string;
+    /**
      * メールサーバー
      */
     "emailServer": string;

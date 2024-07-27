@@ -212,6 +212,29 @@ export function getNoteMenu(props: {
 		});
 	}
 
+	function edit(): void {
+		os.confirm({
+			type: 'warning',
+			text: i18n.ts.editConfirm,
+		}).then(({canceled}) => {
+			if (canceled) return;
+
+			misskeyApi('notes/update', {
+				noteId: appearNote.id,
+				text: (appearNote.text as string),
+				fileIds: appearNote.fileIds,
+				//mediaIds: appearNote.mediaIds,
+				poll: (appearNote.poll ? {
+					expiresAt: (appearNote.poll.expiresAt ? parseInt(appearNote.poll.expiresAt) : undefined),
+					expiredAfter: undefined,
+					multiple: appearNote.poll.multiple,
+					choices: appearNote.poll.choices.map((choice) => { return choice.text }),
+				} : undefined),//(appearNote.poll),
+				cw: (appearNote.cw ?? null),
+			});
+		})
+	}
+
 	function toggleFavorite(favorite: boolean): void {
 		claimAchievement('noteFavorited1');
 		os.apiWithDialog(favorite ? 'notes/favorites/create' : 'notes/favorites/delete', {
@@ -433,6 +456,11 @@ export function getNoteMenu(props: {
 					icon: 'ti ti-edit',
 					text: i18n.ts.deleteAndEdit,
 					action: delEdit,
+				} : undefined,
+				$i.policies.canEditNote || $i.isModerator || $i.isAdmin ? {
+					icon: 'ti ti-edit',
+					text: i18n.ts.edit,
+					action: edit,
 				} : undefined,
 				{
 					icon: 'ti ti-trash',
