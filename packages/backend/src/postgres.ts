@@ -104,17 +104,17 @@ class MyCustomLogger implements Logger {
 	}
 
 	@bindThis
-	public logQuery(query: string, parameters?: any[]) {
+	public logQuery(query: string, parameters?: unknown) {
 		sqlLogger.info(this.highlight(query));
 	}
 
 	@bindThis
-	public logQueryError(error: string, query: string, parameters?: any[]) {
+	public logQueryError(error: string, query: string, parameters?: unknown) {
 		sqlLogger.error(this.highlight(query));
 	}
 
 	@bindThis
-	public logQuerySlow(time: number, query: string, parameters?: any[]) {
+	public logQuerySlow(time: number, query: string, parameters?: unknown) {
 		sqlLogger.warn(this.highlight(query));
 	}
 
