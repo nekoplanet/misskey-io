@@ -153,6 +153,7 @@ const props = withDefaults(defineProps<{
 	autofocus?: boolean;
 	freezeAfterPosted?: boolean;
 	mock?: boolean;
+	editMode?: boolean;
 }>(), {
 	initialVisibleUsers: () => [],
 	autofocus: true,
@@ -773,6 +774,7 @@ async function post(ev?: MouseEvent) {
 		visibility: visibility.value,
 		visibleUserIds: visibility.value === 'specified' ? visibleUsers.value.map(u => u.id) : undefined,
 		reactionAcceptance: reactionAcceptance.value,
+		noteId: props.editMode ? props.initialNote?.id : undefined,
 	};
 
 	if (withHashtags.value && hashtags.value && hashtags.value.trim() !== '') {
@@ -809,7 +811,8 @@ async function post(ev?: MouseEvent) {
 	}
 
 	posting.value = true;
-	misskeyApi('notes/create', postData, token).then(() => {
+	const endpoint = props.editMode ? 'notes/update' : 'notes/create';
+	misskeyApi(endpoint, postData, token).then(() => {
 		if (props.freezeAfterPosted) {
 			posted.value = true;
 		} else {

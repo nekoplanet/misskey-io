@@ -32,6 +32,7 @@ const props = withDefaults(defineProps<{
 	instant?: boolean;
 	fixed?: boolean;
 	autofocus?: boolean;
+	editMode?: boolean;
 }>(), {
 	initialLocalOnly: undefined,
 });
