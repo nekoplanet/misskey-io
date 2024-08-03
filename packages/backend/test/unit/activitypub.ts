@@ -299,7 +299,7 @@ describe('ActivityPub', () => {
 				await createRandomRemoteUser(resolver, personService),
 				imageObject,
 			);
-			assert.ok(!driveFile.isLink);
+			assert.ok(driveFile && !driveFile.isLink);
 
 			const sensitiveImageObject: IApDocument = {
 				type: 'Document',
@@ -312,7 +312,7 @@ describe('ActivityPub', () => {
 				await createRandomRemoteUser(resolver, personService),
 				sensitiveImageObject,
 			);
-			assert.ok(!sensitiveDriveFile.isLink);
+			assert.ok(sensitiveDriveFile && !sensitiveDriveFile.isLink);
 		});
 
 		test('cacheRemoteFiles=false disables caching', async () => {
@@ -328,7 +328,7 @@ describe('ActivityPub', () => {
 				await createRandomRemoteUser(resolver, personService),
 				imageObject,
 			);
-			assert.ok(driveFile.isLink);
+			assert.ok(driveFile && driveFile.isLink);
 
 			const sensitiveImageObject: IApDocument = {
 				type: 'Document',
@@ -407,7 +407,7 @@ describe('ActivityPub', () => {
 				await createRandomRemoteUser(resolver, personService),
 				imageObject,
 			);
-			assert.ok(!driveFile.isLink);
+			assert.ok(driveFile && !driveFile.isLink);
 
 			const sensitiveImageObject: IApDocument = {
 				type: 'Document',
@@ -486,7 +486,7 @@ describe('ActivityPub', () => {
 				await createRandomRemoteUser(resolver, personService),
 				imageObject,
 			);
-			assert.ok(!driveFile.isLink);
+			assert.ok(driveFile && !driveFile.isLink);
 
 			const sensitiveImageObject: IApDocument = {
 				type: 'Document',
