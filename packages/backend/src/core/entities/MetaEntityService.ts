@@ -146,7 +146,7 @@ export class MetaEntityService {
 				reCaptcha: instance.enableRecaptcha,
 				recaptcha: instance.enableRecaptcha,
 				turnstile: instance.enableTurnstile,
-				objectStorage: !!this.config.s3,
+				objectStorage: instance.useObjectStorage,
 				serviceWorker: instance.enableServiceWorker,
 				miauth: true,
 			},
