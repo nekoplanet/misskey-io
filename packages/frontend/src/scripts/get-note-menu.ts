@@ -21,7 +21,6 @@ import { MenuItem } from '@/types/menu.js';
 import MkRippleEffect from '@/components/MkRippleEffect.vue';
 import { isSupportShare } from '@/scripts/navigator.js';
 
-
 export async function getNoteClipMenu(props: {
 	note: Misskey.entities.Note;
 	isDeleted: Ref<boolean>;
