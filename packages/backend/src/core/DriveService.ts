@@ -54,7 +54,7 @@ type AddFileArgs = {
 	/** Comment */
 	comment?: string | null;
 	/** Folder ID */
-	folderId?: any;
+	folderId?: MiDriveFolder['id'] | null;
 	/** If set to true, forcibly upload the file even if there is a file with the same hash. */
 	force?: boolean;
 	/** Do not save file to local */
@@ -817,7 +817,7 @@ export class DriveService {
 			} as DeleteObjectCommandInput;
 
 			await this.s3Service.delete(meta, param);
-		} catch (err: any) {
+		} catch (err: unknown) {
 			if (err.name === 'NoSuchKey') {
 				this.deleteLogger.warn(`The object storage had no such key to delete: ${key}. Skipping this.`, err as Error);
 				return;
