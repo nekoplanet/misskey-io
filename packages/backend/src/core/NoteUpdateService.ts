@@ -97,7 +97,7 @@ export class NoteUpdateService implements OnApplicationShutdown {
             const choiceTokens = data.poll && data.poll.choices
                 ? concat(data.poll.choices.map((choice: string) => mfm.parse(choice)))
                 : [];
-            
+
             const combinedTokens = tokens.concat(cwTokens).concat(choiceTokens);
 
             tags = data.apHashtags ?? extractHashtags(combinedTokens);
@@ -124,6 +124,7 @@ export class NoteUpdateService implements OnApplicationShutdown {
         if (data.updatedAt === null || data.updatedAt === undefined)
             data.updatedAt = new Date();
         const updatedAtHistory = note.updatedAtHistory ?? [];
+        const noteEditHistory = note.noteEditHistory ?? [];
 
         const values = new MiNote({
             updatedAt: data.updatedAt,
@@ -135,7 +136,7 @@ export class NoteUpdateService implements OnApplicationShutdown {
             emojis: emojis,
             attachedFileTypes: data.files ? data.files.map(file => file.type) : [],
             updatedAtHistory: [...updatedAtHistory, data.updatedAt],
-            noteEditHistory: [...note.noteEditHistory, ((note.cw ? note.cw + '\n' : '') + note.text as string)],
+            noteEditHistory: [...noteEditHistory, ((note.cw ? note.cw + '\n' : '') + note.text as string)],
         });
 
         try {
@@ -181,7 +182,7 @@ export class NoteUpdateService implements OnApplicationShutdown {
                         });
 
                         await transactionalEntitymanager.insert(MiPoll, poll);
-                    }                    
+                    }
                 });
             } else if (note.hasPoll && !values.hasPoll) {
                 // start transaction

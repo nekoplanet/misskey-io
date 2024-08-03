@@ -218,20 +218,7 @@ export function getNoteMenu(props: {
 			text: i18n.ts.editConfirm,
 		}).then(({canceled}) => {
 			if (canceled) return;
-
-			misskeyApi('notes/update', {
-				noteId: appearNote.id,
-				text: (appearNote.text as string),
-				fileIds: appearNote.fileIds,
-				//mediaIds: appearNote.mediaIds,
-				poll: (appearNote.poll ? {
-					expiresAt: (appearNote.poll.expiresAt ? parseInt(appearNote.poll.expiresAt) : undefined),
-					expiredAfter: undefined,
-					multiple: appearNote.poll.multiple,
-					choices: appearNote.poll.choices.map((choice) => { return choice.text }),
-				} : undefined),//(appearNote.poll),
-				cw: (appearNote.cw ?? null),
-			});
+			os.post({ initialNote: appearNote, renote: appearNote.renote, reply: appearNote.reply, channel: appearNote.channel , editMode: true });
 		})
 	}
 
