@@ -358,7 +358,7 @@ export class CustomEmojiService implements OnApplicationShutdown {
 	@bindThis
 	public async populateEmojis(emojiNames: string[], noteUserHost: string | null): Promise<Record<string, string>> {
 		const emojis = await Promise.all(emojiNames.map(x => this.populateEmoji(x, noteUserHost)));
-		const res: {emojiNames: string[]} = {};
+		const res = {} as any;
 		for (let i = 0; i < emojiNames.length; i++) {
 			if (emojis[i] != null) {
 				res[emojiNames[i]] = emojis[i];
@@ -373,7 +373,7 @@ export class CustomEmojiService implements OnApplicationShutdown {
 	@bindThis
 	public async prefetchEmojis(emojis: { name: string; host: string | null; }[]): Promise<void> {
 		const notCachedEmojis = emojis.filter(emoji => this.cache.get(`${emoji.name} ${emoji.host}`) == null);
-		const emojisQuery: [{ name: FindOperator<string>, host: string | null }] = [];
+		const emojisQuery = [] as any;
 		const hosts = new Set(notCachedEmojis.map(e => e.host));
 		for (const host of hosts) {
 			if (host == null) continue;
