@@ -122,7 +122,7 @@ export class NoteUpdateService implements OnApplicationShutdown {
         id: MiUser['id'],
         host: MiUser['host'],
     }, note: MiNote, data: Option, tags: string[], emojis: string[]): Promise<MiNote | null> {
-        if (data.updatedAt === null || data.updatedAt === undefined){
+        if (data.updatedAt === null || data.updatedAt === undefined) {
             data.updatedAt = new Date();
         }
         const updatedAtHistory = note.updatedAtHistory ?? [];
@@ -148,7 +148,7 @@ export class NoteUpdateService implements OnApplicationShutdown {
                     await transactionalEntityManager.update(MiNote, { id: note.id }, values);
 
                     if (values.hasPoll) {
-                        const old_poll: MiPoll = await transactionalEntityManager.findOneBy(MiPoll, { noteId: note.id });
+                        const old_poll: (MiPoll | null) = await transactionalEntityManager.findOneBy(MiPoll, { noteId: note.id });
                         if ((old_poll && old_poll.choices.toString() !== data.poll?.choices.toString())
                         || (old_poll && old_poll.multiple !== data.poll?.multiple)) {
                             await transactionalEntityManager.delete(MiPoll, { noteId: note.id });
