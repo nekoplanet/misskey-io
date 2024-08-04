@@ -44,6 +44,11 @@ export const meta = {
 			code: 'CANNOT_CREATE_ALREADY_EXPIRED_POLL',
 			id: '04da457d-b083-4055-9082-955525eda5a5',
 		},
+        updatedNoteGone: {
+            message: 'Updated note has gone.',
+            code: 'NOTE_UPDATE_GONE',
+            id: '6dffaa9b-f578-45ac-9755-9e64290b4528',
+        },
     },
 } as const;
 
@@ -149,11 +154,15 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
                 } : undefined,
             };
 
-            const updatedNote = await this.noteUpdateService.update(me, data, note, false);
-
-            return {
-                updatedNote: await this.noteEntityService.pack(updatedNote!, me),
-            };
+            try {
+                const updatedNote = await this.noteUpdateService.update(me, data, note, false);
+            
+                return {
+                    updatedNote: await this.noteEntityService.pack(updatedNote, me),
+                };
+            } catch (err) {
+                throw err;
+            }
         });
     }
 }

@@ -28,6 +28,7 @@ import { MiPoll, IPoll } from "@/models/Poll.js";
 import { concat } from "@/misc/prelude/array.js";
 import { extractHashtags } from "@/misc/extract-hashtags.js";
 import { extractCustomEmojisFromMfm } from "@/misc/extract-custom-emojis-from-mfm.js";
+import { ApiError } from "@/server/api/error.js";
 
 type MinimumUser = {
     id: MiUser['id'];
@@ -76,7 +77,7 @@ export class NoteUpdateService implements OnApplicationShutdown {
         username: MiUser['username'],
         host: MiUser['host'],
         isBot: MiUser['isBot'],
-    }, data: Option, note: MiNote, silent = false): Promise<MiNote | null> {
+    }, data: Option, note: MiNote, silent = false): Promise<MiNote> {
         if (data.updatedAt == null) data.updatedAt = new Date();
 
         if (data.text) {
@@ -105,7 +106,10 @@ export class NoteUpdateService implements OnApplicationShutdown {
             emojis = data.apEmojis ?? extractCustomEmojisFromMfm(combinedTokens);
         }
 
-        const updatedNote = await this.updateNote(user, note, data, (tags ?? []), (emojis ?? []));
+        var updatedNote: MiNote;
+        try {
+            updatedNote = await this.updateNote(user, note, data, (tags ?? []), (emojis ?? []));
+        } catch (e) { throw e; }
 
         if (updatedNote) {
             setImmediate('post updated', { signal: this.#shutdownController.signal }).then(
@@ -121,7 +125,7 @@ export class NoteUpdateService implements OnApplicationShutdown {
     private async updateNote(user: {
         id: MiUser['id'],
         host: MiUser['host'],
-    }, note: MiNote, data: Option, tags: string[], emojis: string[]): Promise<MiNote | null> {
+    }, note: MiNote, data: Option, tags: string[], emojis: string[]): Promise<MiNote> {
         if (data.updatedAt === null || data.updatedAt === undefined) {
             data.updatedAt = new Date();
         }
@@ -199,7 +203,9 @@ export class NoteUpdateService implements OnApplicationShutdown {
                 await this.notesRepository.update({ id: note.id }, values);
             }
 
-            return await this.notesRepository.findOneBy({ id: note.id });
+            const updatedNote = await this.notesRepository.findOneBy({ id: note.id });
+            if (updatedNote) return updatedNote;
+            throw new ApiError({ message: 'Updated note has gone.', id: '6dffaa9b-f578-45ac-9755-9e64290b4528', code: 'NOTE_UPDATE_GONE' }, { noteId: note.id });
         } catch (e) {
             console.error(e); throw e;
         }
