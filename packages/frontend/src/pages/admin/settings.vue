@@ -216,7 +216,6 @@ import { fetchInstance } from '@/instance.js';
 import { i18n } from '@/i18n.js';
 import { definePageMetadata } from '@/scripts/page-metadata.js';
 
-
 const name = ref<string | null>(null);
 const shortName = ref<string | null>(null);
 const description = ref<string | null>(null);

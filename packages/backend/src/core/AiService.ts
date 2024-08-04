@@ -56,7 +56,7 @@ export class AiService {
 			}
 
 			const buffer = await fs.promises.readFile(path);
-			const image = await tf.node.decodeImage(buffer, 3) as tf.Tensor3D;
+			const image = await tf.node.decodeImage(buffer, 3) as any;
 			try {
 				const predictions = await this.model.classify(image);
 				return predictions;

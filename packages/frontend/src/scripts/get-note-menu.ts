@@ -21,7 +21,6 @@ import { MenuItem } from '@/types/menu.js';
 import MkRippleEffect from '@/components/MkRippleEffect.vue';
 import { isSupportShare } from '@/scripts/navigator.js';
 
-
 export async function getNoteClipMenu(props: {
 	note: Misskey.entities.Note;
 	isDeleted: Ref<boolean>;
@@ -216,10 +215,10 @@ export function getNoteMenu(props: {
 		os.confirm({
 			type: 'warning',
 			text: i18n.ts.editConfirm,
-		}).then(({canceled}) => {
+		}).then(({ canceled }) => {
 			if (canceled) return;
-			os.post({ initialNote: appearNote, renote: appearNote.renote, reply: appearNote.reply, channel: appearNote.channel , editMode: true });
-		})
+			os.post({ initialNote: appearNote, renote: appearNote.renote, reply: appearNote.reply, channel: appearNote.channel, editMode: true });
+		});
 	}
 
 	function toggleFavorite(favorite: boolean): void {

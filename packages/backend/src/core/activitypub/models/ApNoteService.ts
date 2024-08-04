@@ -362,13 +362,13 @@ export class ApNoteService {
 
 		const note = object as IPost;
 
-		if (note.attributedTo == null)
+		if (note.attributedTo == null) {
 			throw new Error('invalid note.attributedTo' + note.attributedTo);
+		}
 
 		const actor = await this.apPersonService
 		.resolvePerson(getOneApId(note.attributedTo), resolver) as MiRemoteUser;
-		if (actor.isSuspended)
-			throw new Error('actor has been suspended');
+		if (actor.isSuspended) throw new Error('actor has been suspended');
 
 		const files: MiDriveFile[] = [];
 
