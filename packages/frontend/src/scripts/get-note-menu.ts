@@ -217,7 +217,9 @@ export function getNoteMenu(props: {
 			text: i18n.ts.editConfirm,
 		}).then(({ canceled }) => {
 			if (canceled) return;
-			os.post({ initialNote: appearNote, renote: appearNote.renote, reply: appearNote.reply, channel: appearNote.channel, editMode: true });
+			os.post({ initialNote: appearNote, renote: appearNote.renote, reply: appearNote.reply, channel: appearNote.channel, editMode: true })
+			.then(() => { location.reload(); });
+			// 노트 수정 사항이 바로 반영되지 않는 문제 수정을 위해 일단 넣었습니다. 수정이 되면 강제 새로고침합니다.
 		});
 	}
 
