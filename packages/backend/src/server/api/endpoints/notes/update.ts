@@ -109,13 +109,11 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
             requireRolePolicy: 'canEditNote',
         }, paramDef, async(ps, me) => {
             const note = await this.getterService.getNote(ps.noteId).catch(err => {
-                if (err.id === '9725d0ce-ba28-4dde-95a7-2cbb2c15de24')
-                    throw new ApiError(meta.errors.noSuchNote);
+                if (err.id === '9725d0ce-ba28-4dde-95a7-2cbb2c15de24') throw new ApiError(meta.errors.noSuchNote);
                 throw err;
             });
 
-            if (note.userId !== me.id)
-                throw new ApiError(meta.errors.noSuchNote);
+            if (note.userId !== me.id) throw new ApiError(meta.errors.noSuchNote);
 
             let files: MiDriveFile[] = [];
             const fileIds = ps.fileIds ?? ps.mediaIds ?? null;
@@ -129,14 +127,12 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
                 .setParameters({ fileIds })
                 .getMany();
 
-                if (files.length !== fileIds.length)
-                    throw new ApiError(meta.errors.noSuchFile);
+                if (files.length !== fileIds.length) throw new ApiError(meta.errors.noSuchFile);
             }
 
             if (ps.poll) {
                 if (typeof ps.poll.expiresAt === 'number') {
-                    if (ps.poll.expiresAt < Date.now())
-                        throw new ApiError(meta.errors.cannotCreateAlreadyExpiredPoll);
+                    if (ps.poll.expiresAt < Date.now()) throw new ApiError(meta.errors.cannotCreateAlreadyExpiredPoll);
                 } else if (typeof ps.poll.expiredAfter === 'number') {
                     ps.poll.expiresAt = Date.now() + ps.poll.expiredAfter;
                 }
