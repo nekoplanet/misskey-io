@@ -154,15 +154,11 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
                 } : undefined,
             };
 
-            try {
-                const updatedNote = await this.noteUpdateService.update(me, data, note, false);
+            const updatedNote = await this.noteUpdateService.update(me, data, note, false);
             
-                return {
-                    updatedNote: await this.noteEntityService.pack(updatedNote, me),
-                };
-            } catch (err) {
-                throw err;
-            }
+            return {
+                updatedNote: await this.noteEntityService.pack(updatedNote, me),
+            };
         });
     }
 }

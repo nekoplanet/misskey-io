@@ -106,10 +106,7 @@ export class NoteUpdateService implements OnApplicationShutdown {
             emojis = data.apEmojis ?? extractCustomEmojisFromMfm(combinedTokens);
         }
 
-        var updatedNote: MiNote;
-        try {
-            updatedNote = await this.updateNote(user, note, data, (tags ?? []), (emojis ?? []));
-        } catch (e) { throw e; }
+        const updatedNote = await this.updateNote(user, note, data, (tags ?? []), (emojis ?? []));
 
         if (updatedNote) {
             setImmediate('post updated', { signal: this.#shutdownController.signal }).then(
