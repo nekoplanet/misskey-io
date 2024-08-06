@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 <template>
 <MkSpacer :contentMax="narrow ? 800 : 1100">
 	<div ref="rootEl" class="ftskorzw" :class="{ wide: !narrow }" style="container-type: inline-size;">
-		<div class="main _gaps">
+		<div class="main _gaps"> 
 			<div v-if="user.isSuspended" class="punished"><i class="ti ti-alert-triangle" style="margin-right: 8px;"></i> {{ i18n.ts.userSuspended }}</div>
 			<div v-if="user.isLimited" class="punished"><i class="ti ti-alert-triangle" style="margin-right: 8px;"></i> {{ i18n.ts.userLimited }}</div>
 			<div v-if="user.isSilenced" class="punished"><i class="ti ti-alert-triangle" style="margin-right: 8px;"></i> {{ i18n.ts.userSilenced }}</div>
@@ -386,6 +386,7 @@ onUnmounted(() => {
 	> .main {
 
 		> .punished {
+			display: none;
 			font-size: 0.8em;
 			padding: 16px;
 			background: var(--infoWarnBg);
